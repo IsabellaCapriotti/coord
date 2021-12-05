@@ -1,0 +1,8 @@
+.outer-container{
+    width: 50%; 
+}
+
+.img-gallery{
+    width: 100%; 
+    flex-wrap: wrap; 
+}

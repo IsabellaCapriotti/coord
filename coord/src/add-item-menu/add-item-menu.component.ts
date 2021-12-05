@@ -1,0 +1,39 @@
+import { Component } from "@angular/core";
+import { ImageFetchService } from "src/service/img-fetch.service";
+
+@Component({
+    selector: 'add-item-menu',
+    templateUrl: './add-item-menu.component.html',
+    'styleUrls': ['./add-item-menu.component.css']
+})
+export class AddItemMenuComponent{
+    currentURL:string = ""
+    imageSources : string[] = []
+    imagesActive : boolean = false; 
+
+    constructor(private imageFetchService : ImageFetchService ){}
+
+    onAddItemButton(){
+        console.log(this.currentURL); 
+        
+        // Get potential images in 
+        this.imageFetchService.getProductImageSrc(this.currentURL).toPromise().then( (res:any) => {
+            this.imagesActive = true; 
+            this.imageSources = res['sources']
+            console.log(this.imageSources); 
+        }, 
+        (err:any) => {
+            console.log('got error'); 
+            console.log(err)
+        }); 
+
+    }
+    
+    // If an image fails to load, remove it from the list of images to render
+    handleBadImage(event:any){
+        console.log(event); 
+
+        let badURL = event.target.attributes.src.value;
+        this.imageSources = this.imageSources.filter( (src:any) => src != badURL); 
+    }
+}

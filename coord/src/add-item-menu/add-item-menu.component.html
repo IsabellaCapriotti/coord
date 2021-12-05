@@ -1,0 +1,12 @@
+<div class="col-container outer-container">
+    <div class="row-container">
+        <input type="text" placeholder="Enter URL of item" [(ngModel)]="currentURL">
+        <button (click)="onAddItemButton()">Add</button>
+    </div>
+
+    <div class="img-gallery row-container" *ngIf="imagesActive">
+        <mat-card *ngFor="let img of imageSources">
+            <img mat-card-md-image [src]="img" (error)="handleBadImage($event)">
+        </mat-card>
+    </div>
+</div>
