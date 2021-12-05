@@ -8,11 +8,31 @@
     ></div>
 </div>
 
-<div id="sidebar" [ngStyle]="
+<div id="sidebar" class="col-container" [ngStyle]="
 {
     'left': isMenuExpanded ? '0px' : '-100%'
 }">
+    <h3>Items In This Coord</h3>
 
+    <div id="new-item-creator" class="col-container">
+
+        <div id="url-entry" class="row-container">
+            <input id="new-item-input" type="text" placeholder="Enter URL" [(ngModel)]="currentURL">
+            <button id="new-item-submit" class="noBorderBtn" (click)="onAddItemButton()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+
+        <div id="new-image-choices col-container" *ngIf="newImagesActive">
+            <h4>Select the image you'd like to use for this product.</h4>
+            <mat-card *ngFor="let img of imageSources" class="new-img-choice">
+                <img mat-card-md-image [src]="img" (error)="handleBadImage($event)">
+            </mat-card>
+        </div>
+
+    </div>
+
+    <div id="items-list"></div>
 </div>
     <!--
 <div class="col-container outer-container">

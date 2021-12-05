@@ -13,6 +13,7 @@ import { AddItemMenuComponent } from 'src/add-item-menu/add-item-menu.component'
 import { EditorToolbarComponent } from 'src/editor-toolbar/editor-toolbar.component';
 
 import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
 import { SafePipeModule } from 'safe-pipe';
 
 @NgModule({
@@ -30,7 +31,8 @@ import { SafePipeModule } from 'safe-pipe';
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
-    SafePipeModule
+    SafePipeModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

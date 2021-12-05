@@ -20,6 +20,27 @@ body, html{
     flex-flow: column; 
 }
 
+.noBorderBtn{
+    border: none;
+    background: none;
+    outline: none; 
+}
+.noBorderBtn:focus{
+    border: none;
+    background: none;
+    outline: none; 
+}
+.noBorderBtn:hover{
+    border: none;
+    background: none;
+    outline: none; 
+}
+.noBorderBtn:active{
+    border: none;
+    background: none;
+    outline: none; 
+}
+
 /* Color palette definitions */ 
 :root{
     --orange-med: #FFC07F; 

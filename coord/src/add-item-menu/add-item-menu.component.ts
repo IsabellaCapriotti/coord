@@ -11,10 +11,10 @@ export class AddItemMenuComponent{
 
     currentURL:string = ""
     imageSources : string[] = []
-    imagesActive : boolean = false; 
+    newImagesActive : boolean = false; 
 
     // Expanding/collapsing menu
-    isMenuExpanded : boolean = false; 
+    isMenuExpanded : boolean = true; 
 
     constructor(private imageFetchService : ImageFetchService ){}
 
@@ -25,26 +25,28 @@ export class AddItemMenuComponent{
         this.isMenuExpanded = !this.isMenuExpanded; 
     }
 
+    // ********************************************
+    // ADDING NEW ITEMS
+    // ********************************************
     onAddItemButton(){
-        console.log(this.currentURL); 
+        //console.log(this.currentURL); 
         
         // Get potential images
         this.imageFetchService.getProductImageSrc(this.currentURL).toPromise().then( (res:any) => {
-            this.imagesActive = true; 
+            this.newImagesActive = true; 
             this.imageSources = res['sources']
-            console.log(this.imageSources); 
+            //console.log(this.imageSources); 
         }, 
         (err:any) => {
             console.log('got error'); 
             console.log(err)
+            alert('Oops! Looks like that wasn\'t a valid URL. Please try again.')
         }); 
 
     }
     
     // If an image fails to load, remove it from the list of images to render
     handleBadImage(event:any){
-        console.log(event); 
-
         let badURL = event.target.attributes.src.value;
         this.imageSources = this.imageSources.filter( (src:any) => src != badURL); 
     }

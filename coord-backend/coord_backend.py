@@ -10,6 +10,7 @@ CORS(app)
 def get_imgs():
     #print(request.json)
     productURL = request.json['productURL']
+    
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET',
@@ -23,7 +24,8 @@ def get_imgs():
         html_content = requests.get(productURL, headers)
         soup = BeautifulSoup(html_content.content, 'html.parser')
         #print(soup.prettify())
-    except:
+    except Exception as e:
+        print(e)
         return "Error parsing webpage", 500
 
     # Get all images

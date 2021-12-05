@@ -1,6 +1,8 @@
+/* Sidebar container */ 
 .outer-container{
     height: 100%; 
 }
+
 #expand-triangle{
     width: 0;
     height: 0;
@@ -18,9 +20,45 @@
     left: 0px; 
     background-color: var(--brown-dark);
     transition: left ease-out .55s; 
+    border-top: 4px solid var(--purple-dark);
+    padding: 8px; 
 }
-.img-gallery{
+
+#sidebar h3{
+    color: white; 
+    font-family: 'Dosis', sans-serif; 
+    font-weight: 700; 
+    font-size: 1.3rem;
+}
+
+/* New item addition */ 
+#new-item-creator{
     width: 100%; 
-    flex-wrap: wrap; 
+    background-color: var(--orange-light);
+    border-radius: 8px; 
+    padding: 3px; 
+}
+
+#url-input{
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; 
+}
+#new-item-input{
+    background-color: var(--orange-light);
+    border: none;
+    width: 80%; 
+    color: var(--brown-light); 
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1rem;
+}
+#new-item-input:focus{
+    border: none;
+    outline: none;
+}
+#new-item-submit{
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1.2rem; 
+    font-weight: 800;
 }
 
