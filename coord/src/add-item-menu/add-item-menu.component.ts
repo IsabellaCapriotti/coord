@@ -7,16 +7,28 @@ import { ImageFetchService } from "src/service/img-fetch.service";
     'styleUrls': ['./add-item-menu.component.css']
 })
 export class AddItemMenuComponent{
+
+
     currentURL:string = ""
     imageSources : string[] = []
     imagesActive : boolean = false; 
 
+    // Expanding/collapsing menu
+    isMenuExpanded : boolean = false; 
+
     constructor(private imageFetchService : ImageFetchService ){}
+
+    // ********************************************
+    // EXPANDING / COLLAPSING MENU 
+    // ********************************************
+    toggleMenu(){
+        this.isMenuExpanded = !this.isMenuExpanded; 
+    }
 
     onAddItemButton(){
         console.log(this.currentURL); 
         
-        // Get potential images in 
+        // Get potential images
         this.imageFetchService.getProductImageSrc(this.currentURL).toPromise().then( (res:any) => {
             this.imagesActive = true; 
             this.imageSources = res['sources']

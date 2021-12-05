@@ -1,8 +1,26 @@
 .outer-container{
-    width: 50%; 
+    height: 100%; 
+}
+#expand-triangle{
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 4vh 0 4vh 4vh;
+    border-color: transparent transparent transparent #32292f;
+    position: absolute; 
+    top: 50%; 
 }
 
+#sidebar{
+    height: 100%; 
+    width: 20%; 
+    position: fixed; 
+    left: 0px; 
+    background-color: var(--brown-dark);
+    transition: left ease-out .55s; 
+}
 .img-gallery{
     width: 100%; 
     flex-wrap: wrap; 
 }
+

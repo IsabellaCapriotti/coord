@@ -19,3 +19,12 @@ body, html{
     display: flex;
     flex-flow: column; 
 }
+
+/* Color palette definitions */ 
+:root{
+    --orange-med: #FFC07F; 
+    --orange-light: #FFCF99; 
+    --brown-dark: #32292F; 
+    --brown-light: #A1886C; 
+    --purple-dark: #543449; 
+}
