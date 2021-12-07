@@ -14,7 +14,9 @@ export class AddItemMenuComponent{
     newImagesActive : boolean = false; 
 
     // Expanding/collapsing menu
-    isMenuExpanded : boolean = true; 
+    isMenuExpanded : boolean = false; 
+    triangleOffset : string = '0px';
+    updatingOffset : boolean = false; 
 
     constructor(private imageFetchService : ImageFetchService ){}
 
@@ -23,6 +25,26 @@ export class AddItemMenuComponent{
     // ********************************************
     toggleMenu(){
         this.isMenuExpanded = !this.isMenuExpanded; 
+        this.updateTriangleOffset(); 
+    }
+
+    // Updates the pixel offset of the triangle that expands/collapses the sidebar based on the 
+    // current menu state and screen size. 
+    updateTriangleOffset(){
+        
+
+        if(!this.isMenuExpanded){
+            this.triangleOffset = '0px'; 
+        }
+
+        else if(window.innerWidth > 868){
+            this.triangleOffset = '20%';
+        }
+        else{
+            this.triangleOffset = '35%'; 
+        }
+
+        //console.log('updated offset to', this.triangleOffset); 
     }
 
     // ********************************************
