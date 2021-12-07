@@ -8,6 +8,7 @@
     ></div>
 </div>
 
+<perfect-scrollbar>
 <div id="sidebar" class="col-container" [ngStyle]="
 {
     'left': isMenuExpanded ? '0px' : '-100%'
@@ -23,29 +24,15 @@
             </button>
         </div>
 
-        <div id="new-image-choices col-container" *ngIf="newImagesActive">
+        <div id="new-image-choices" class="col-container" *ngIf="newImagesActive">
             <h4>Select the image you'd like to use for this product.</h4>
-            <mat-card *ngFor="let img of imageSources" class="new-img-choice">
-                <img mat-card-md-image [src]="img" (error)="handleBadImage($event)">
-            </mat-card>
+            <product-img-card *ngFor="let img of imageSources" class="new-img-choice" [imageSrc]="img"
+            (badImageEvent)="handleBadImage($event)"
+            ></product-img-card>
         </div>
 
     </div>
 
     <div id="items-list"></div>
 </div>
-    <!--
-<div class="col-container outer-container">
-
-    <div class="row-container">
-        <input type="text" placeholder="Enter URL of item" [(ngModel)]="currentURL">
-        <button (click)="onAddItemButton()">Add</button>
-    </div>
-
-    <div class="img-gallery row-container" *ngIf="imagesActive">
-        <mat-card *ngFor="let img of imageSources">
-            <img mat-card-md-image [src]="img" (error)="handleBadImage($event)">
-        </mat-card>
-    </div>
-
-</div>    -->
+</perfect-scrollbar>

@@ -11,10 +11,19 @@ import { CoordEditorComponent } from 'src/coord-editor/coord-editor.component';
 import { CurrentCoordComponent } from 'src/current-coord/current-coord.component';
 import { AddItemMenuComponent } from 'src/add-item-menu/add-item-menu.component';
 import { EditorToolbarComponent } from 'src/editor-toolbar/editor-toolbar.component';
+import { ProductImgCardComponent } from 'src/product-img-card/product-img-card.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { SafePipeModule } from 'safe-pipe';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
+
 
 @NgModule({
   declarations: [
@@ -22,7 +31,8 @@ import { SafePipeModule } from 'safe-pipe';
     CoordEditorComponent,
     CurrentCoordComponent,
     AddItemMenuComponent,
-    EditorToolbarComponent
+    EditorToolbarComponent,
+    ProductImgCardComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +42,15 @@ import { SafePipeModule } from 'safe-pipe';
     BrowserAnimationsModule,
     MatCardModule,
     SafePipeModule,
-    MatIconModule
+    MatIconModule,
+    PerfectScrollbarModule
   ],
-  providers: [],
+  providers: [
+    {
+    provide: PERFECT_SCROLLBAR_CONFIG,
+    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

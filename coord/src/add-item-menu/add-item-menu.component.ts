@@ -46,8 +46,7 @@ export class AddItemMenuComponent{
     }
     
     // If an image fails to load, remove it from the list of images to render
-    handleBadImage(event:any){
-        let badURL = event.target.attributes.src.value;
+    handleBadImage(badURL:string){
         this.imageSources = this.imageSources.filter( (src:any) => src != badURL); 
     }
 }

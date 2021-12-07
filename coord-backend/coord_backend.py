@@ -33,14 +33,30 @@ def get_imgs():
     #print(img_tags)
 
     src = []
+    method = productURL[:productURL.find('www')]
+    base_url = productURL[len(method):]
+    base_url = base_url[:base_url.find('/')]
 
+    # img tags
     for img in img_tags:
         #print(img.attrs)
         if 'src' in img.attrs:
-            src.append(img['src'])
+            print('original', img['src'])
+
+            # Handle relative URLs
+            if img['src'][0] == '/' and not img['src'][1] == '/':
+                src.append(method + base_url + img['src'])
+                print('slicing n dicing',method + base_url + img['src'] )
+            else:
+                src.append(img['src'])
         elif 'data-src' in img.attrs:
             src.append(img['data-src'])
         
+    # picture tags
+    picture_tags = soup.find_all("picture")
+    print(picture_tags)
+    for picture in picture_tags: 
+        print(picture)
 
     return {'sources': src }
 

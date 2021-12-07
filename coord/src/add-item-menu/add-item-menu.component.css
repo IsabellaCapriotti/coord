@@ -22,6 +22,7 @@
     transition: left ease-out .55s; 
     border-top: 4px solid var(--purple-dark);
     padding: 8px; 
+    overflow: auto; 
 }
 
 #sidebar h3{
@@ -29,6 +30,7 @@
     font-family: 'Dosis', sans-serif; 
     font-weight: 700; 
     font-size: 1.3rem;
+    margin-bottom: 10px; 
 }
 
 /* New item addition */ 
@@ -60,5 +62,20 @@
     font-family: 'Dosis', sans-serif; 
     font-size: 1.2rem; 
     font-weight: 800;
+}
+
+/* Image container */ 
+#new-image-choices{
+    align-items: center;
+}
+
+#new-image-choices h4{
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1rem; 
+    font-weight: 500; 
+    color: var(--brown-dark); 
+    border-bottom: 3px solid var(--purple-dark); 
+    margin-top: 5px; 
+    margin-bottom: 7px;  
 }
 
