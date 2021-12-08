@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ImageFetchService } from "src/service/img-fetch.service";
+import { Product } from "src/utils/product-type"; 
 
 @Component({
     selector: 'add-item-menu',
@@ -9,14 +10,18 @@ import { ImageFetchService } from "src/service/img-fetch.service";
 export class AddItemMenuComponent{
 
 
+    // Adding a new item
     currentURL:string = ""
-    imageSources : string[] = []
+    newImageSources : string[] = []
     newImagesActive : boolean = false; 
 
     // Expanding/collapsing menu
     isMenuExpanded : boolean = false; 
     triangleOffset : string = '0px';
     updatingOffset : boolean = false; 
+
+    // Managing currently active products
+    activeProducts : Product[] = []; 
 
     constructor(private imageFetchService : ImageFetchService ){}
 
@@ -32,7 +37,6 @@ export class AddItemMenuComponent{
     // current menu state and screen size. 
     updateTriangleOffset(){
         
-
         if(!this.isMenuExpanded){
             this.triangleOffset = '0px'; 
         }
@@ -44,20 +48,17 @@ export class AddItemMenuComponent{
             this.triangleOffset = '35%'; 
         }
 
-        //console.log('updated offset to', this.triangleOffset); 
     }
 
     // ********************************************
     // ADDING NEW ITEMS
     // ********************************************
     onAddItemButton(){
-        //console.log(this.currentURL); 
         
         // Get potential images
         this.imageFetchService.getProductImageSrc(this.currentURL).toPromise().then( (res:any) => {
             this.newImagesActive = true; 
-            this.imageSources = res['sources']
-            //console.log(this.imageSources); 
+            this.newImageSources = res['sources']
         }, 
         (err:any) => {
             console.log('got error'); 
@@ -69,6 +70,19 @@ export class AddItemMenuComponent{
     
     // If an image fails to load, remove it from the list of images to render
     handleBadImage(badURL:string){
-        this.imageSources = this.imageSources.filter( (src:any) => src != badURL); 
+        this.newImageSources = this.newImageSources.filter( (src:any) => src != badURL); 
+    }
+
+    // When the user selects which image to use for the new product, add it in the list of active images
+    selectNewImage(event:any){
+
+        // Add new product
+        let newSrc = event.target.attributes.src.value; 
+        this.activeProducts.push(new Product(newSrc)); 
+
+        // Clear out add menu 
+        this.currentURL = ""; 
+        this.newImageSources = []; 
+        this.newImagesActive = false; 
     }
 }

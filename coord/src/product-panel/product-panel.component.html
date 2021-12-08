@@ -1,0 +1,10 @@
+<div class="row-container outer-product-panel">
+
+    <!-- Product image -->
+    <product-img-card [imageSrc]="imageSrc"></product-img-card>
+
+    <!-- Render name entry if none has been entered yet -->
+    <input *ngIf="productName == ''" class="product-name-entry" [(ngModel)]="newProductName"
+    placeholder="Enter name"
+    >
+</div>

@@ -19,6 +19,7 @@ import { SafePipeModule } from 'safe-pipe';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ProductPanelComponent } from 'src/product-panel/product-panel.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -32,7 +33,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CurrentCoordComponent,
     AddItemMenuComponent,
     EditorToolbarComponent,
-    ProductImgCardComponent
+    ProductImgCardComponent,
+    ProductPanelComponent
   ],
   imports: [
     BrowserModule,

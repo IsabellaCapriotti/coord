@@ -1,0 +1,19 @@
+.outer-product-panel{
+    background-color: var(--orange-light);
+    border-radius: 8px; 
+    padding: 8px; 
+    margin-top: 12px; 
+    flex-wrap: wrap; 
+    align-items: center;
+    align-content: center; 
+}
+
+.product-name-entry{
+    height: min-content;
+    width: auto; 
+    background: none;
+    outline: none;
+    border-bottom: 1px solid var(--brown-dark); 
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1rem;
+}
