@@ -20,6 +20,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ProductPanelComponent } from 'src/product-panel/product-panel.component';
+import { EditorImgComponent } from 'src/editor-img/editor-img.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -34,7 +35,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AddItemMenuComponent,
     EditorToolbarComponent,
     ProductImgCardComponent,
-    ProductPanelComponent
+    ProductPanelComponent,
+    EditorImgComponent
   ],
   imports: [
     BrowserModule,

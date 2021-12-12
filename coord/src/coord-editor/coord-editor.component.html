@@ -2,7 +2,9 @@
     <editor-toolbar></editor-toolbar>
 
     <div class="row-container">
-        <add-item-menu></add-item-menu>
-        <current-coord></current-coord>
+        <add-item-menu 
+        (newProductAddedEvent)="onNewProductAdded($event)"
+        ></add-item-menu>
+        <current-coord [activeProducts]="activeProducts"></current-coord>
     </div>
 </div>

@@ -8,6 +8,10 @@
     align-content: center; 
 }
 
+product-img-card{
+    margin-right: 2%; 
+}
+
 .product-name-entry{
     height: min-content;
     width: auto; 
@@ -16,4 +20,13 @@
     border-bottom: 1px solid var(--brown-dark); 
     font-family: 'Dosis', sans-serif; 
     font-size: 1rem;
+}
+
+.product-name-display{ 
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1rem;
+}
+
+.confirmNameBtn:hover{
+    cursor: pointer; 
 }

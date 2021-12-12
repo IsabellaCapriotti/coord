@@ -11,5 +11,17 @@ export class ProductPanelComponent{
     @Input() productName : string = ""; 
 
     newProductName : string = ""; 
+    editing : boolean = false; 
     
+    // Update product name when new one is entered
+    onConfirmProductName(){
+        this.productName = this.newProductName; 
+
+        if(this.editing){
+            this.editing = false; 
+        }
+    }
+    onEditProductName(){
+        this.editing = true; 
+    }
 }

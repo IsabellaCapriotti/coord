@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Output, EventEmitter} from "@angular/core";
 import { ImageFetchService } from "src/service/img-fetch.service";
 import { Product } from "src/utils/product-type"; 
 
@@ -22,6 +22,7 @@ export class AddItemMenuComponent{
 
     // Managing currently active products
     activeProducts : Product[] = []; 
+    @Output() newProductAddedEvent : EventEmitter<Product> = new EventEmitter<Product>(); 
 
     constructor(private imageFetchService : ImageFetchService ){}
 
@@ -78,7 +79,10 @@ export class AddItemMenuComponent{
 
         // Add new product
         let newSrc = event.target.attributes.src.value; 
+        //console.log(event.target.attributes)
         this.activeProducts.push(new Product(newSrc)); 
+
+        this.newProductAddedEvent.emit(new Product(newSrc)); 
 
         // Clear out add menu 
         this.currentURL = ""; 
