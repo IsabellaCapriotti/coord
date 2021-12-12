@@ -1,5 +1,8 @@
 <div class="outer-resize" #imgContainer
-
+[style.left.px]="currLeftOffset"
+[style.top.px]="currTopOffset"
+(drag)="disableDrag($event)"
+(dragstart)="disableDrag($event)"
 >
     <!-- Image -->
     <img [src]="imageSrc"
@@ -8,14 +11,12 @@
     >
 
     <!-- Resizers -->
-    <div class="resizer resizer-tl" (mousedown)="onResizerMousedown($event)"
-    ></div>
-    <div class="resizer resizer-tr" (mousedown)="onResizerMousedown($event)"
-    
-    ></div>
-    <div class="resizer resizer-bl" (mousedown)="onResizerMousedown($event)"
-    ></div>
-    <div class="resizer resizer-br" (mousedown)="onResizerMousedown($event)"
-    ></div>
+    <div class="resizer resizer-tl" (mousedown)="onResizerMousedown($event)"></div>
+    <div class="resizer resizer-tr" (mousedown)="onResizerMousedown($event)"></div>
+    <div class="resizer resizer-bl" (mousedown)="onResizerMousedown($event)"></div>
+    <div class="resizer resizer-br" (mousedown)="onResizerMousedown($event)"></div>
+
+    <!-- Mover -->
+    <div class="mover" (mousedown)="onMoverMousedown($event)"></div>
 
 </div>
