@@ -1,4 +1,21 @@
-<div class="outer-resize">
-    <img [src]="imageSrc">
-    <div class="resizer "
+<div class="outer-resize" #imgContainer
+
+>
+    <!-- Image -->
+    <img [src]="imageSrc"
+    [style.width.px]="currWidth"
+    [style.height.px]="currHeight"
+    >
+
+    <!-- Resizers -->
+    <div class="resizer resizer-tl" (mousedown)="onResizerMousedown($event)"
+    ></div>
+    <div class="resizer resizer-tr" (mousedown)="onResizerMousedown($event)"
+    
+    ></div>
+    <div class="resizer resizer-bl" (mousedown)="onResizerMousedown($event)"
+    ></div>
+    <div class="resizer resizer-br" (mousedown)="onResizerMousedown($event)"
+    ></div>
+
 </div>

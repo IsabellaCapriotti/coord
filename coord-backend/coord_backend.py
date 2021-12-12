@@ -23,7 +23,6 @@ def get_imgs():
     try: 
         html_content = requests.get(productURL, headers)
         soup = BeautifulSoup(html_content.content, 'html.parser')
-        #print(soup.prettify())
     except Exception as e:
         print(e)
         return "Error parsing webpage", 500
@@ -38,19 +37,20 @@ def get_imgs():
     base_url = base_url[:base_url.find('/')]
 
     # img tags
+    
     for img in img_tags:
         #print(img.attrs)
-        if 'src' in img.attrs:
-            print('original', img['src'])
+        if 'src' in img.attrs and len(img.attrs['src']) >= 2:
+            print('original', img.attrs['src'])
 
             # Handle relative URLs
-            if img['src'][0] == '/' and not img['src'][1] == '/':
-                src.append(method + base_url + img['src'])
-                print('slicing n dicing',method + base_url + img['src'] )
+            if img.attrs['src'][0] == '/' and not img.attrs['src'][1] == '/':
+                src.append(method + base_url + img.attrs['src'])
+                print('slicing n dicing',method + base_url + img.attrs['src'] )
             else:
-                src.append(img['src'])
+                src.append(img.attrs['src'])
         elif 'data-src' in img.attrs:
-            src.append(img['data-src'])
+            src.append(img.attrs['data-src'])
         
     # picture tags
     picture_tags = soup.find_all("picture")

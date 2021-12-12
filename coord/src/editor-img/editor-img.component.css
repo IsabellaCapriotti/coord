@@ -1,0 +1,45 @@
+.outer-resize{
+    position: relative; 
+}
+
+/* Resizing image */ 
+.resizer{
+    position: absolute; 
+}
+
+.resizer-tl{
+    top:0px; 
+    left: 0px; 
+    width: 5%;
+    height: 5%; 
+    cursor: nw-resize; 
+}
+
+.resizer-tr{
+    top:0px; 
+    right: 0px; 
+    width: 5%;
+    height: 5%; 
+    cursor: ne-resize; 
+}
+
+.resizer-bl{
+    bottom:0px; 
+    left: 0px; 
+    width: 5%;
+    height: 5%; 
+    cursor: sw-resize; 
+}
+
+.resizer-br{
+    bottom:0px; 
+    right: 0px; 
+    width: 5%;
+    height: 5%; 
+    cursor: se-resize; 
+}
+
+/* .outer-resize img{
+    width: 100%; 
+    height: 100%; 
+} */
