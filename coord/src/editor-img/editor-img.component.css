@@ -48,3 +48,27 @@
     height: 90%; 
     cursor: move; 
 }
+
+/* Options menu */ 
+.image-options{
+    background-color: var(--purple-dark); 
+    color: white; 
+    border-radius: 5px; 
+    padding: 10px;
+    position: absolute;
+    right: -10%; 
+    bottom: 20%;  
+    z-index: 10000; 
+}
+
+.options-list{
+    list-style-type: none;
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1 rem;
+}
+
+.options-list li{
+    border-bottom: 1px solid white; 
+    margin-bottom: 2.5px; 
+    cursor: pointer;
+}

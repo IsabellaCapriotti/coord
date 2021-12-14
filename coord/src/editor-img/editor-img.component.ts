@@ -28,6 +28,11 @@ export class EditorImgComponent implements AfterViewInit{
     moveStartLeftOffset : number = 0; 
     moveStartTopOffset : number = 0; 
 
+    // Image options
+    isOptionsMenuOpen : boolean = false; 
+    currZIdx : number = 0; 
+
+
     ngAfterViewInit(): void {
         console.log(this.imgContainer.nativeElement.getBoundingClientRect()); 
 
@@ -113,8 +118,36 @@ export class EditorImgComponent implements AfterViewInit{
     }
 
     disableDrag(event:any){
-        console.log('DRAG HERRRRRR')
         event.preventDefault(); 
         event.stopPropagation(); 
+    }
+
+
+    // **********************************************
+    // IMAGE OPTIONS
+    // **********************************************
+
+    // Open options menu on right click
+    handleRightClick(event:any){
+        event.preventDefault(); 
+        event.stopPropagation(); 
+        this.isOptionsMenuOpen = true; 
+    }
+
+    onMoveForwardClicked(){
+        this.currZIdx += 1; 
+    }
+    onMoveBackwardClicked(){
+        this.currZIdx -= 1; 
+    }
+
+    @HostListener('window:click', ['$event'])
+    onParentClick(event : any){
+
+        // Check if this click occurred outside of the options menu; if it did, hide the options
+        // menu         
+        if(!event.target.classList.contains('image-option')){
+            this.isOptionsMenuOpen = false; 
+        }
     }
 }

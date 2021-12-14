@@ -1,8 +1,11 @@
 <div class="outer-resize" #imgContainer
 [style.left.px]="currLeftOffset"
 [style.top.px]="currTopOffset"
+[style.z-index]="currZIdx"
+
 (drag)="disableDrag($event)"
 (dragstart)="disableDrag($event)"
+(contextmenu)="handleRightClick($event)"
 >
     <!-- Image -->
     <img [src]="imageSrc"
@@ -17,6 +20,13 @@
     <div class="resizer resizer-br" (mousedown)="onResizerMousedown($event)"></div>
 
     <!-- Mover -->
-    <div class="mover" (mousedown)="onMoverMousedown($event)"></div>
+    <div class="mover" (mousedown)="onMoverMousedown($event)" ></div>
 
+    <!-- Menu for image options -->
+    <div class="image-options col-container" *ngIf="isOptionsMenuOpen">
+        <ul class="options-list">
+            <li class="image-option" (click)="onMoveForwardClicked()">Move forward</li>
+            <li class="image-option" (click)="onMoveBackwardClicked()">Move backward</li>
+        </ul>
+    </div>
 </div>
