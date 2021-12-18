@@ -46,7 +46,6 @@ def get_imgs():
             # Handle relative URLs
             if img.attrs['src'][0] == '/' and not img.attrs['src'][1] == '/':
                 src.append(method + base_url + img.attrs['src'])
-                print('slicing n dicing',method + base_url + img.attrs['src'] )
             else:
                 src.append(img.attrs['src'])
         elif 'data-src' in img.attrs:

@@ -3,26 +3,55 @@
     <!-- Product image -->
     <product-img-card [imageSrc]="imageSrc"></product-img-card>
 
-    <!-- Render name entry if none has been entered yet -->
-    <div class="row-container" style="justify-content: space-between;">
+    <!-- Options for product -->
+    <div class="col-container" class="product-options">
 
-        <!-- Initial name entry -->
-        <input *ngIf="productName == '' || editing" class="product-name-entry" [(ngModel)]="newProductName"
-        placeholder="Enter name"
-        >
-        <button *ngIf="productName == '' || editing" class="noBorderBtn confirmNameBtn"
-        (click)="onConfirmProductName()"
-        >
-            <mat-icon>done</mat-icon>
-        </button>
+        <!-- Render name entry if none has been entered yet -->
+        <div class="row-container" style="justify-content: space-between;">
 
-        <!-- Viewing/editing current name -->
-        <p *ngIf="productName != '' && !editing" class="product-name-display">{{productName}}</p>
-        <button *ngIf="productName != '' && !editing" class="noBorderBtn editNameBtn"
-        (click)="onEditProductName()"
-        >
-            <mat-icon>edit</mat-icon>
-        </button>
+            <!-- Initial name entry -->
+            <input *ngIf="productName == '' || editing" class="product-name-entry" [(ngModel)]="newProductName"
+            placeholder="Enter name"
+            >
+            <button *ngIf="productName == '' || editing" class="noBorderBtn confirmNameBtn"
+            (click)="onConfirmProductName()"
+            >
+                <mat-icon>done</mat-icon>
+            </button>
+
+            <!-- Viewing/editing current name -->
+            <p *ngIf="productName != '' && !editing" class="product-name-display">{{productName}}</p>
+            <button *ngIf="productName != '' && !editing" class="noBorderBtn editNameBtn"
+            (click)="onEditProductName()"
+            >
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+
+        <!-- Toolbar for show/hide, deletion -->
+        <div class="row-container">
+
+            <button class="show-product noBorderBtn" 
+            *ngIf="isHidden"
+            (click)="onVisibilityBtnClick()">
+                <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button class="show-product noBorderBtn" 
+            *ngIf="!isHidden"
+            (click)="onVisibilityBtnClick()">
+                <mat-icon>visibility_off</mat-icon>
+            </button>
+
+            <button class="noBorderBtn"
+            (click)="onDeleteProductBtnClick()"
+            >   
+                <mat-icon>delete</mat-icon>
+            </button>
+
+        </div>
+        
     </div>
+    
 
 </div>

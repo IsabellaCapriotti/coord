@@ -8,6 +8,8 @@ import { Component, ElementRef, Input, ViewChild, AfterViewInit, HostListener } 
 export class EditorImgComponent implements AfterViewInit{
 
     @Input() imageSrc: string = ""; 
+    @Input() productID!: number; 
+
     @ViewChild('imgContainer') imgContainer !: ElementRef; 
 
     // Resizing 

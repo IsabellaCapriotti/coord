@@ -47,6 +47,9 @@
             <product-panel *ngFor="let product of activeProducts" 
             [imageSrc]="product.imageSrc"
             [productName]="product.productName"
+            [productID]="product.productID"
+            (hiddenChangedEvent)="onProductHiddenChanged($event)"
+            (deleteEvent)="onProductDeleted($event)"
             ></product-panel>
         </div>
     </div>

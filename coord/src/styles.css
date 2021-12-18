@@ -30,11 +30,13 @@ body, html{
     border: none;
     background: none;
     outline: none; 
+    cursor: pointer; 
 }
 .noBorderBtn:hover{
     border: none;
     background: none;
     outline: none; 
+    cursor: pointer; 
 }
 .noBorderBtn:active{
     border: none;

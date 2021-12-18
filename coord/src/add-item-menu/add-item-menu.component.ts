@@ -22,7 +22,7 @@ export class AddItemMenuComponent{
 
     // Managing currently active products
     activeProducts : Product[] = []; 
-    @Output() newProductAddedEvent : EventEmitter<Product> = new EventEmitter<Product>(); 
+    @Output() productsChangedEvent : EventEmitter<Product[]> = new EventEmitter<Product[]>(); 
 
     constructor(private imageFetchService : ImageFetchService ){}
 
@@ -80,13 +80,36 @@ export class AddItemMenuComponent{
         // Add new product
         let newSrc = event.target.attributes.src.value; 
         //console.log(event.target.attributes)
-        this.activeProducts.push(new Product(newSrc)); 
+        let newProd = new Product(newSrc); 
+        this.activeProducts.push(newProd); 
 
-        this.newProductAddedEvent.emit(new Product(newSrc)); 
+        this.productsChangedEvent.emit(this.activeProducts); 
 
         // Clear out add menu 
         this.currentURL = ""; 
         this.newImageSources = []; 
         this.newImagesActive = false; 
+    }
+
+    onProductHiddenChanged(event:any){
+        let prod = event[0]; 
+        let newHiddenState = event[1]; 
+
+        this.activeProducts = this.activeProducts.map( (curr_prod:Product) => {
+            
+            if(curr_prod.productID == prod){
+                curr_prod.isHidden = newHiddenState; 
+            }
+
+            return curr_prod; 
+        }); 
+
+        this.productsChangedEvent.emit(this.activeProducts); 
+    }
+
+    onProductDeleted(event:number){
+
+        this.activeProducts = this.activeProducts.filter( (prod:Product) => prod.productID != event); 
+        this.productsChangedEvent.emit(this.activeProducts); 
     }
 }

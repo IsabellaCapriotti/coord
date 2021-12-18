@@ -3,7 +3,7 @@
 
     <div class="row-container">
         <add-item-menu 
-        (newProductAddedEvent)="onNewProductAdded($event)"
+        (productsChangedEvent)="onProductsChanged($event)"
         ></add-item-menu>
         <current-coord [activeProducts]="activeProducts"></current-coord>
     </div>

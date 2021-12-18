@@ -10,9 +10,8 @@ export class CoordEditorComponent{
 
     activeProducts : Product[] = []; 
 
-    onNewProductAdded(newProd : Product){
-        this.activeProducts.push(newProd); 
-        console.log('new active products'); 
-        console.log(this.activeProducts); 
+    onProductsChanged(newProds : Product[]){
+        this.activeProducts = newProds; 
+        console.log(newProds); 
     }
 }
