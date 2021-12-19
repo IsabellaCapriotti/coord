@@ -30,3 +30,9 @@ product-img-card{
 .confirmNameBtn:hover{
     cursor: pointer; 
 }
+
+.moreProductOptions{
+    width: 100%; 
+    justify-content: space-evenly;
+    align-items: center; 
+}

@@ -1,7 +1,77 @@
 #editor-container{
     position: relative; 
+    overflow: auto; 
+    align-items: center;
+
+    border-top: 20px solid var(--purple-dark); 
+    border-left: 1px solid var(--purple-dark); 
+    border-right: 1px solid var(--purple-dark); 
+    border-bottom: 1px solid var(--purple-dark); 
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 editor-img{
     position: absolute; 
 }
+
+#width-select{
+    background-color: white;
+    font-family: 'Dosis', sans-serif; 
+
+    border-radius: 8px; 
+    min-width: 40vw; 
+    min-height: 40vh;
+    align-items: center;
+}
+
+.purple-splash{
+    width: 100%; 
+    height: 10%; 
+    background-color: var(--purple-dark);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#editor-container .purple-splash{
+    height: 2%; 
+    min-height: 10px; 
+}
+
+#width-info{
+    padding: 10px; 
+    font-size: 1.3rem; 
+    font-weight: 400; 
+}
+
+#width-info h3{
+    color: var(--purple-dark); 
+    font-size: 1.5rem;
+    font-weight: 600;  
+    margin-bottom: 8%; 
+}
+
+#width-info input{
+    text-align: right; 
+}
+
+
+#submitDimensionsBtn{
+    background-color: var(--purple-dark);
+    color: white; 
+    font-family: 'Dosis', sans-serif; 
+    font-size: 1.2rem; 
+    font-weight: 400; 
+    border-radius: 8px; 
+    padding: 5px; 
+    margin-top: 5%; 
+}
+
+#submitDimensionsBtn:hover{
+    cursor: pointer; 
+}
+.screen-cover{
+    align-items: center;
+    justify-content: center;
+}
+

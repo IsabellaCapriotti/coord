@@ -44,6 +44,13 @@ body, html{
     outline: none; 
 }
 
+.screen-cover{
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(64, 62, 59, .7); 
+    z-index: 2000; 
+}
+
 /* Color palette definitions */ 
 :root{
     --orange-med: #FFC07F; 
