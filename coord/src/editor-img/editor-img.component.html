@@ -1,12 +1,14 @@
 <div class="outer-resize" #imgContainer
-[style.left.px]="currLeftOffset"
-[style.top.px]="currTopOffset"
+
 [style.z-index]="currZIdx"
+[style.width.px]="currWidth"
+[style.height.px]="currHeight"
 
 (drag)="disableDrag($event)"
 (dragstart)="disableDrag($event)"
 (contextmenu)="handleRightClick($event)"
 >
+
     <!-- Image -->
     <img [src]="imageSrc"
     [style.width.px]="currWidth"
