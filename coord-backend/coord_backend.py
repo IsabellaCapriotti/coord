@@ -2,6 +2,12 @@ from flask import Flask, request, make_response
 from flask_cors import CORS
 from bs4 import BeautifulSoup
 import requests
+import pymongo 
+from decouple import config
+import urllib
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+
 
 app = Flask(__name__)
 CORS(app)
@@ -12,24 +18,30 @@ def get_imgs():
     productURL = request.json['productURL']
     
     headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Max-Age': '3600',
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+        #'Access-Control-Allow-Origin': '*',
+        #'Access-Control-Allow-Methods': 'GET',
+        #'Access-Control-Allow-Headers': 'Content-Type',
+        # 'Access-Control-Max-Age': '3600',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+        'referer':'https://www.google.com/'
     }
+
+    # Get webpage with selenium
+    firefoxOptions = Options()
+    firefoxOptions.headless = True
+    driver = webdriver.Firefox(options=firefoxOptions)
+    driver.implicitly_wait(1)
+    driver.get(productURL)
 
     # Build out soup content of product page
     try: 
-        html_content = requests.get(productURL, headers)
-        soup = BeautifulSoup(html_content.content, 'html.parser')
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
     except Exception as e:
         print(e)
         return "Error parsing webpage", 500
 
     # Get all images
     img_tags = soup.find_all("img")
-    #print(img_tags)
 
     src = []
     method = productURL[:productURL.find('www')]
@@ -37,9 +49,7 @@ def get_imgs():
     base_url = base_url[:base_url.find('/')]
 
     # img tags
-    
     for img in img_tags:
-        #print(img.attrs)
         if 'src' in img.attrs and len(img.attrs['src']) >= 2:
             print('original', img.attrs['src'])
 
@@ -51,11 +61,29 @@ def get_imgs():
         elif 'data-src' in img.attrs:
             src.append(img.attrs['data-src'])
         
-    # picture tags
-    picture_tags = soup.find_all("picture")
-    print(picture_tags)
-    for picture in picture_tags: 
-        print(picture)
+    # # picture tags
+    # picture_tags = soup.find_all("picture")
+    # print(picture_tags)
+    # for picture in picture_tags: 
+    #     print(picture)
 
     return {'sources': src }
 
+@app.route("/savecoord", methods=['POST'])
+def save_coord():
+    
+
+
+    try:
+        db = connectToMongo()
+        return "Successfully connected to DB"
+    except Exception as e:
+        return str(e)
+
+
+
+# Returns a connection instance to the MongoDB cluster
+def connectToMongo():
+    
+    client = pymongo.MongoClient("mongodb+srv://" + urllib.parse.quote_plus(config('MONGO_UN')) + ":" + urllib.parse.quote_plus(config('MONGO_PW')) + "@coordcluster.trg2t.mongodb.net/coord?retryWrites=true&w=majority")
+    return client
