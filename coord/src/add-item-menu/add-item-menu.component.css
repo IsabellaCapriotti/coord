@@ -23,6 +23,7 @@
     border-top: 4px solid var(--purple-dark);
     padding: 8px; 
     overflow: hidden; 
+    justify-content: flex-start;
 }
 
 @media screen and (max-width: 868px){

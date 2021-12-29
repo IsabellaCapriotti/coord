@@ -12,6 +12,8 @@ import { CurrentCoordComponent } from 'src/current-coord/current-coord.component
 import { AddItemMenuComponent } from 'src/add-item-menu/add-item-menu.component';
 import { EditorToolbarComponent } from 'src/editor-toolbar/editor-toolbar.component';
 import { ProductImgCardComponent } from 'src/product-img-card/product-img-card.component';
+import { ProductPanelComponent } from 'src/product-panel/product-panel.component';
+import { EditorImgComponent } from 'src/editor-img/editor-img.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -19,8 +21,7 @@ import { SafePipeModule } from 'safe-pipe';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { ProductPanelComponent } from 'src/product-panel/product-panel.component';
-import { EditorImgComponent } from 'src/editor-img/editor-img.component';
+import { NgxSpinnerModule } from "ngx-spinner"; 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: false
@@ -47,7 +48,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatCardModule,
     SafePipeModule,
     MatIconModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    NgxSpinnerModule
   ],
   providers: [
     {

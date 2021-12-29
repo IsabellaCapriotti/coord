@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { ImageFetchService } from "src/service/img-fetch.service";
 import { Product } from "src/utils/types"; 
 import { SaveCoordService } from "src/service/save_coords.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     selector: 'add-item-menu',
@@ -24,7 +25,7 @@ export class AddItemMenuComponent{
     // Managing currently active products
     activeProducts : Product[] = []; 
 
-    constructor(private imageFetchService : ImageFetchService, private saveCoordService : SaveCoordService ){
+    constructor(private imageFetchService : ImageFetchService, private saveCoordService : SaveCoordService, private spinner : NgxSpinnerService ){
 
         // Subscribe to changes in products
         this.saveCoordService.productsInCoordSubj.subscribe( (newProds: Product[]) => {
@@ -63,9 +64,11 @@ export class AddItemMenuComponent{
     onAddItemButton(){
         
         // Get potential images
+        this.spinner.show("add-product-spinner"); 
         this.imageFetchService.getProductImageSrc(this.currentURL).toPromise().then( (res:any) => {
             this.newImagesActive = true; 
-            this.newImageSources = res['sources']
+            this.newImageSources = res['sources']; 
+            this.spinner.hide("add-product-spinner"); 
         }, 
         (err:any) => {
             console.log('got error'); 
