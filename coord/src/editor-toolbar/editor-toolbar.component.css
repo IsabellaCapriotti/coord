@@ -3,11 +3,16 @@ nav{
     color: white;
     width: 100%; 
     height: 8vh; 
-    padding: 8px; 
+    padding: 8px;
+    justify-content: space-between; 
 }
 
 #site-title{
     font-family: 'Comfortaa', sans-serif; 
     font-weight: 600; 
     font-size: 2.5rem;
+}
+
+nav #saveBtn{
+    color: white;
 }

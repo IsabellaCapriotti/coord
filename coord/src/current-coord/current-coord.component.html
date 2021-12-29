@@ -1,25 +1,37 @@
-<div id="editor-container" class="col-container" *ngIf="initialized"
-[ngStyle]="
+
+<div [ngStyle]="
 {
     'width': editorWidth + 'px',
     'height': editorHeight + 'px'
-}"
->   
-    <!--<div class="purple-splash"></div>-->
-
-    <div *ngFor="let prod of activeProducts">
-        <editor-img 
-        [imageSrc]="prod.imageSrc"
-        [productID]="prod.productID"
-        [editorMaxX]="editorWidth"
-        [editorMaxY]="editorHeight"
-
+}" 
+*ngIf="initialized"
+style="overflow: hidden">
+    <perfect-scrollbar>
+        <div id="editor-container" class="col-container" 
         [ngStyle]="
         {
-            'opacity': prod.isHidden ? '0%' : '100%'
+            'width': editorWidth + 'px',
+            'height': editorHeight + 'px'
         }"
-        ></editor-img>
-    </div>
+        >   
+            <!--<div class="purple-splash"></div>-->
+
+            <div *ngFor="let prod of activeProducts">
+                <editor-img 
+                [imageSrc]="prod.imageSrc"
+                [productID]="prod.productID"
+                [editorMaxX]="editorWidth"
+                [editorMaxY]="editorHeight"
+
+                [ngStyle]="
+                {
+                    'opacity': prod.isHidden ? '0%' : '100%'
+                }"
+                ></editor-img>
+            </div>
+        </div>
+    </perfect-scrollbar>
+
 </div>
 
 <!-- Popup to select width -->

@@ -49,11 +49,18 @@ export class EditorImgComponent implements AfterViewInit{
 
 
     ngAfterViewInit(): void {
-        console.log(this.imgContainer.nativeElement.getBoundingClientRect()); 
 
         // Get initial height and width of image
         this.currHeight = this.imgContainer.nativeElement.offsetHeight; 
         this.currWidth = this.imgContainer.nativeElement.offsetWidth;
+
+        // Scale image if it's too large for the editor
+        if(this.currWidth > this.editorMaxX){
+            this.currWidth = this.editorMaxX - 50; 
+        }
+        if(this.currHeight > this.editorMaxY){
+            this.currHeight = this.editorMaxY - 50; 
+        }
     }
 
 
@@ -104,7 +111,6 @@ export class EditorImgComponent implements AfterViewInit{
             if(this.currTopOffset < 0){
                 this.currTopOffset = 0; 
             }
-            console.log(this.currLeftOffset + ' ' + this.editorMaxX); 
             if(this.currLeftOffset > this.editorMaxX - this.currWidth){
                 this.currLeftOffset = this.editorMaxX - this.currWidth; 
             }

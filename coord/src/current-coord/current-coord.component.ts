@@ -1,5 +1,6 @@
-import { Component, Input } from "@angular/core";
-import { Product } from "src/utils/product-type";
+import { Component, Output, EventEmitter, HostBinding } from "@angular/core";
+import { Product } from "src/utils/types";
+import { SaveCoordService } from "src/service/save_coords.service";
 
 @Component({
     selector: 'current-coord',
@@ -8,21 +9,32 @@ import { Product } from "src/utils/product-type";
 })
 export class CurrentCoordComponent{
 
-    @Input() activeProducts : Product[] = []; 
+    activeProducts : Product[] = []; 
+    @Output() dimsConfirmed : EventEmitter<number[]> = new EventEmitter<number[]>(); 
 
     editorWidth : number = 0; 
     editorHeight : number = 0; 
 
     initialized : boolean = false; 
 
-    constructor(){
+    @HostBinding('style.padding.px') pxOffset : number = 0; 
+
+    constructor(private saveCoordService : SaveCoordService){
 
         // Initialize default width and height
         this.editorWidth = screen.width; 
         this.editorHeight = screen.height - 200; 
+
+        // Subscribe to changes in active products list
+        this.saveCoordService.productsInCoordSubj.subscribe( (newProds: Product[]) => {
+            this.activeProducts = newProds; 
+        }); 
+
     }
 
     onSubmitDimensionsBtnClick(){
         this.initialized = true; 
+        this.pxOffset = 10;
+        this.dimsConfirmed.emit([this.editorWidth, this.editorHeight])
     }
 }

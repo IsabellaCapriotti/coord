@@ -23,7 +23,7 @@ import { ProductPanelComponent } from 'src/product-panel/product-panel.component
 import { EditorImgComponent } from 'src/editor-img/editor-img.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
+  suppressScrollX: false
 };
 
 

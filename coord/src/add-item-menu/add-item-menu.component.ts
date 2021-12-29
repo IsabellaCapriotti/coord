@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter} from "@angular/core";
+import { Component } from "@angular/core";
 import { ImageFetchService } from "src/service/img-fetch.service";
-import { Product } from "src/utils/product-type"; 
+import { Product } from "src/utils/types"; 
+import { SaveCoordService } from "src/service/save_coords.service";
 
 @Component({
     selector: 'add-item-menu',
@@ -22,9 +23,14 @@ export class AddItemMenuComponent{
 
     // Managing currently active products
     activeProducts : Product[] = []; 
-    @Output() productsChangedEvent : EventEmitter<Product[]> = new EventEmitter<Product[]>(); 
 
-    constructor(private imageFetchService : ImageFetchService ){}
+    constructor(private imageFetchService : ImageFetchService, private saveCoordService : SaveCoordService ){
+
+        // Subscribe to changes in products
+        this.saveCoordService.productsInCoordSubj.subscribe( (newProds: Product[]) => {
+            this.activeProducts = newProds; 
+        }); 
+    }
 
     // ********************************************
     // EXPANDING / COLLAPSING MENU 
@@ -79,37 +85,13 @@ export class AddItemMenuComponent{
 
         // Add new product
         let newSrc = event.target.attributes.src.value; 
-        //console.log(event.target.attributes)
         let newProd = new Product(newSrc); 
-        this.activeProducts.push(newProd); 
 
-        this.productsChangedEvent.emit(this.activeProducts); 
+        this.saveCoordService.addProduct(newProd); 
 
         // Clear out add menu 
         this.currentURL = ""; 
         this.newImageSources = []; 
         this.newImagesActive = false; 
-    }
-
-    onProductHiddenChanged(event:any){
-        let prod = event[0]; 
-        let newHiddenState = event[1]; 
-
-        this.activeProducts = this.activeProducts.map( (curr_prod:Product) => {
-            
-            if(curr_prod.productID == prod){
-                curr_prod.isHidden = newHiddenState; 
-            }
-
-            return curr_prod; 
-        }); 
-
-        this.productsChangedEvent.emit(this.activeProducts); 
-    }
-
-    onProductDeleted(event:number){
-
-        this.activeProducts = this.activeProducts.filter( (prod:Product) => prod.productID != event); 
-        this.productsChangedEvent.emit(this.activeProducts); 
     }
 }

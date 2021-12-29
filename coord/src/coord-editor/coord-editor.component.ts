@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
-import { Product } from "src/utils/product-type";
+import { Product } from "src/utils/types";
+import { SaveCoordService } from "src/service/save_coords.service";
 
 @Component({
     selector: 'coord-editor',
@@ -8,10 +9,22 @@ import { Product } from "src/utils/product-type";
 })
 export class CoordEditorComponent{
 
+    constructor( private saveCoordService : SaveCoordService){
+
+        // Subscribe to changes in active products
+        this.saveCoordService.productsInCoordSubj.subscribe( (newProds : Product[]) => {
+            this.activeProducts = newProds; 
+        }); 
+    }
+
     activeProducts : Product[] = []; 
 
     onProductsChanged(newProds : Product[]){
         this.activeProducts = newProds; 
         console.log(newProds); 
+    }
+
+    onWidthConfirmed(){
+        
     }
 }
