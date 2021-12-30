@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, HostBinding } from "@angular/core";
+import { Component, HostBinding } from "@angular/core";
 import { Product } from "src/utils/types";
 import { SaveCoordService } from "src/service/save_coords.service";
 
@@ -10,7 +10,6 @@ import { SaveCoordService } from "src/service/save_coords.service";
 export class CurrentCoordComponent{
 
     activeProducts : Product[] = []; 
-    @Output() dimsConfirmed : EventEmitter<number[]> = new EventEmitter<number[]>(); 
 
     editorWidth : number = 0; 
     editorHeight : number = 0; 
@@ -35,6 +34,7 @@ export class CurrentCoordComponent{
     onSubmitDimensionsBtnClick(){
         this.initialized = true; 
         this.pxOffset = 10;
-        this.dimsConfirmed.emit([this.editorWidth, this.editorHeight])
+
+        this.saveCoordService.assignDimensions(this.editorWidth, this.editorHeight);
     }
 }

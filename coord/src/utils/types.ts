@@ -1,10 +1,20 @@
 export class Product{
+
+    // Image/product properties
     imageSrc : string = "";
     productName : string = ""; 
     isHidden : boolean = false; 
-    productID : number; 
 
+    // ID
+    productID : number; 
     static latestID : number = 0; 
+
+    // Positional properties
+    currHeight : number = 0; 
+    currWidth : number = 0; 
+    currLeftOffset : number = 0; 
+    currTopOffset : number = 0; 
+    currZIdx : number = 0; 
     
     constructor (newSrc : string, newName : string=""){
         this.imageSrc = newSrc; 
@@ -12,18 +22,27 @@ export class Product{
         Product.latestID += 3;  
     }   
 
+    // Function to assign new position
+    updatePos(newH : number, newW : number, newLOffset : number, newTOffset : number, newZ : number){
+        this.currHeight = newH; 
+        this.currWidth = newW; 
+        this.currLeftOffset = newLOffset; 
+        this.currTopOffset = newTOffset; 
+        this.currZIdx = newZ; 
+    }
+
 }
 
 export class Coord{
 
     products : Product[] = []; 
-    dimX : number = 0; 
-    dimY : number = 0; 
+    width : number = 0; 
+    height : number = 0; 
 
     constructor(newProds : Product[], dimX : number, dimY : number){
         this.products = newProds; 
-        this.dimX = dimX; 
-        this.dimY = dimY; 
+        this.width = dimX; 
+        this.height = dimY; 
     }
     
 }

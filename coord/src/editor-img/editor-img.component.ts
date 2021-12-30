@@ -1,12 +1,16 @@
-import { Component, ElementRef, Input, ViewChild, AfterViewInit, HostListener, HostBinding } from '@angular/core'; 
+import { Component, ElementRef, Input, ViewChild, AfterViewInit, OnInit, HostListener, HostBinding } from '@angular/core'; 
+import { Product } from 'src/utils/types';
+import { SaveCoordService } from 'src/service/save_coords.service';
 
 @Component({
     selector: 'editor-img',
     templateUrl: './editor-img.component.html',
     styleUrls: ['./editor-img.component.css']
 })
-export class EditorImgComponent implements AfterViewInit{
+export class EditorImgComponent implements AfterViewInit, OnInit{
 
+
+    @Input() productRef !: Product; 
     @Input() imageSrc: string = ""; 
     @Input() productID!: number; 
 
@@ -47,9 +51,19 @@ export class EditorImgComponent implements AfterViewInit{
     @Input() editorMaxX : number = 0; 
     @Input() editorMaxY : number = 0; 
 
+    constructor( private saveCoordService : SaveCoordService ){}
+
+    ngOnInit(){
+
+        // Initialize properties to that of product reference
+        console.log('in here');
+        console.log(this.productRef); 
+        this.imageSrc = this.productRef.imageSrc; 
+        this.productID = this.productRef.productID; 
+
+    }
 
     ngAfterViewInit(): void {
-
         // Get initial height and width of image
         this.currHeight = this.imgContainer.nativeElement.offsetHeight; 
         this.currWidth = this.imgContainer.nativeElement.offsetWidth;
@@ -61,6 +75,11 @@ export class EditorImgComponent implements AfterViewInit{
         if(this.currHeight > this.editorMaxY){
             this.currHeight = this.editorMaxY - 50; 
         }
+
+        // Initialize product positional properties
+        this.productRef.updatePos(this.currHeight, this.currWidth, this.currLeftOffset, this.currTopOffset, this.currZIdx); 
+        this.saveCoordService.updateProduct(this.productRef); 
+
     }
 
 
@@ -127,6 +146,11 @@ export class EditorImgComponent implements AfterViewInit{
         this.isDraggingResizer = false; 
         this.isMoving = false; 
 
+        
+        // Update product positional properties
+        this.productRef.updatePos(this.currHeight, this.currWidth, this.currLeftOffset, this.currTopOffset, this.currZIdx); 
+        this.saveCoordService.updateProduct(this.productRef); 
+
     }
 
     // **********************************************
@@ -164,9 +188,18 @@ export class EditorImgComponent implements AfterViewInit{
 
     onMoveForwardClicked(){
         this.currZIdx += 1; 
+        
+        // Update product positional properties
+        this.productRef.updatePos(this.currHeight, this.currWidth, this.currLeftOffset, this.currTopOffset, this.currZIdx); 
+        this.saveCoordService.updateProduct(this.productRef); 
     }
     onMoveBackwardClicked(){
-        this.currZIdx -= 1; 
+        this.currZIdx -= 1;
+        
+        
+        // Update product positional properties
+        this.productRef.updatePos(this.currHeight, this.currWidth, this.currLeftOffset, this.currTopOffset, this.currZIdx); 
+        this.saveCoordService.updateProduct(this.productRef); 
     }
 
     @HostListener('window:click', ['$event'])

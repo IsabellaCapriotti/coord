@@ -19,11 +19,6 @@ export class CoordEditorComponent{
 
     activeProducts : Product[] = []; 
 
-    onProductsChanged(newProds : Product[]){
-        this.activeProducts = newProds; 
-        console.log(newProds); 
-    }
-
     onWidthConfirmed(){
         
     }

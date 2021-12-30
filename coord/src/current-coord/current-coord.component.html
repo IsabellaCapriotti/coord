@@ -18,8 +18,7 @@ style="overflow: hidden">
 
             <div *ngFor="let prod of activeProducts">
                 <editor-img 
-                [imageSrc]="prod.imageSrc"
-                [productID]="prod.productID"
+                [productRef]="prod"
                 [editorMaxX]="editorWidth"
                 [editorMaxY]="editorHeight"
 

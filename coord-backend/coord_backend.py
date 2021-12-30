@@ -2,12 +2,12 @@ from flask import Flask, request, make_response
 from flask_cors import CORS
 from bs4 import BeautifulSoup
 import requests
-import pymongo 
+import pymongo
 from decouple import config
 import urllib
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-
+import certifi
 
 app = Flask(__name__)
 CORS(app)
@@ -72,10 +72,12 @@ def get_imgs():
 @app.route("/savecoord", methods=['POST'])
 def save_coord():
     
-
+    print(request.json)
 
     try:
-        db = connectToMongo()
+        client = connectToMongo()
+        saved_coords = client['Coord']['SavedCoords']
+        saved_coords.insert_one(request.json)
         return "Successfully connected to DB"
     except Exception as e:
         return str(e)
@@ -84,6 +86,7 @@ def save_coord():
 
 # Returns a connection instance to the MongoDB cluster
 def connectToMongo():
-    
-    client = pymongo.MongoClient("mongodb+srv://" + urllib.parse.quote_plus(config('MONGO_UN')) + ":" + urllib.parse.quote_plus(config('MONGO_PW')) + "@coordcluster.trg2t.mongodb.net/coord?retryWrites=true&w=majority")
+
+    client = pymongo.MongoClient("mongodb+srv://" + urllib.parse.quote_plus(config('MONGO_UN')) + ":" + urllib.parse.quote_plus(config('MONGO_PW')) + "@coordcluster.trg2t.mongodb.net/coord?retryWrites=true&w=majority",
+    tls=True, tlsCAFile=certifi.where())
     return client

@@ -1,7 +1,7 @@
 <nav class="row-container">
     <h1 id="site-title">Coord</h1>
 
-    <button id="saveBtn" class="noBorderBtn" (click)="onSaveCoordBtnClick()">
+    <button *ngIf="isSaveEnabled" id="saveBtn" class="noBorderBtn" (click)="onSaveCoordBtnClick()">
         <mat-icon>save</mat-icon>
     </button>
 </nav>

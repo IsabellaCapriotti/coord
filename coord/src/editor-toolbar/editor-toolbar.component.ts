@@ -8,7 +8,15 @@ import { SaveCoordService } from 'src/service/save_coords.service';
 })
 export class EditorToolbarComponent{
 
-    constructor (private saveCoordService : SaveCoordService){}
+    isSaveEnabled : boolean = false; 
+
+    constructor (private saveCoordService : SaveCoordService){
+
+        // Wait for coord to be initialized to activate save button
+        this.saveCoordService.coordInitializedSubj.subscribe( (newState : boolean) => {
+            this.isSaveEnabled = newState; 
+        }); 
+    }
 
     onSaveCoordBtnClick(){
 
