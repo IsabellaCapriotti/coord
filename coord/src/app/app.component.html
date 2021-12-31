@@ -1,1 +1,2 @@
-<coord-editor></coord-editor>
+<coord-editor *ngIf="auth"></coord-editor>
+<sign-in *ngIf="!auth"></sign-in>

@@ -1,0 +1,87 @@
+#sign-in-outer{
+    background-color: var(--purple-dark);
+    width: 100vw; 
+    height: 100vh; 
+    align-items: center;
+    justify-content: center;
+}
+
+#sign-in-inner{
+    background-color: whitesmoke;
+    border-radius: 8px; 
+    min-width: 40vw; 
+    min-height: 60vh; 
+    margin-left: 5%; 
+}
+
+
+
+#sign-in-title{
+    font-family: 'Comfortaa', sans-serif; 
+    font-weight: 600; 
+    font-size: 2.5rem;
+    margin-left: 5%; 
+    color: white;
+}
+
+#sign-in-title span{
+    font-size: 3rem; 
+    color: var(--orange-light); 
+}
+
+/* Clothing SVGs */ 
+#shirt-svg{
+    position: relative;
+    transform: scale(15%); 
+    animation-name: shirt-move; 
+    animation-duration: 3s; 
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes shirt-move{
+
+    from{
+        left: -10%;
+        top: -10%;
+    }
+
+    70%{
+        left: 10%; 
+        top: 5%; 
+    }
+
+    to{
+        left: 10%; 
+        top: 5%; 
+    }
+}
+
+#skirt-svg{
+    transform: scale(15%); 
+    position: relative;
+    animation-name: skirt-move; 
+    animation-duration: 3s; 
+    animation-iteration-count: infinite;
+    animation-direction: alternate; 
+    animation-delay: .3s; 
+}
+
+@keyframes skirt-move{
+
+    from{
+        left: 0%; 
+        top: 0%; 
+    }
+
+    70%{
+        left: -20%; 
+        top: 15%; 
+    }
+
+    to{ 
+        left: -20%; 
+        top: 15%; 
+    }
+}
+

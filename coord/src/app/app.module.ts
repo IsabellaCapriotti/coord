@@ -14,6 +14,7 @@ import { EditorToolbarComponent } from 'src/editor-toolbar/editor-toolbar.compon
 import { ProductImgCardComponent } from 'src/product-img-card/product-img-card.component';
 import { ProductPanelComponent } from 'src/product-panel/product-panel.component';
 import { EditorImgComponent } from 'src/editor-img/editor-img.component';
+import { SignInComponent } from 'src/sign-in/sign-in.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -37,7 +38,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditorToolbarComponent,
     ProductImgCardComponent,
     ProductPanelComponent,
-    EditorImgComponent
+    EditorImgComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
