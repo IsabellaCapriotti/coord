@@ -4,8 +4,31 @@
         <h1 id="sign-in-title">Welcome to <span>Coord</span></h1>
         <div class="col-container" id="sign-in-inner">
 
+            <!-- Message for account creation -->
+            <p *ngIf="new_user">Looks like that account doesn't exist yet- but it will soon!</p>
+
+            <!-- Username/password entry -->
+            <div class="row-container">
+                <label for="un-entry">Username: </label>
+                <input type="text" name="un-entry" [(ngModel)]="curr_un">
+            </div>
+
+            <div *ngIf="new_user" class="row-container">
+                <label for="email-entry">Email: </label>
+                <input type="email" name="email-entry" [(ngModel)]="curr_email">
+            </div>
+
+            <div class="row-container">
+                <label for="pw-entry">Password: </label>
+                <input type="password" name="pw-entry" [(ngModel)]="curr_pw">
+            </div>
+
+            <button *ngIf="!new_user" id="sign-in-btn" (click)="onSignInBtnClick()">LOG IN</button>
+            <button *ngIf="new_user" id="create-account-btn" (click)="onCreateBtnClick()">CREATE</button>
         </div>
     </div>
+   
+   
     <svg version="1.1" id="shirt-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
     viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
         <path style="fill:#FFC07F;" d="M302.247,196.018c-27.61,0-39.998,15.475-44.871,24.565c-0.612,1.142-2.273,1.14-2.884-0.003

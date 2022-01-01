@@ -8,6 +8,7 @@ import urllib
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 import certifi
+import bcrypt
 
 app = Flask(__name__)
 CORS(app)
@@ -69,6 +70,8 @@ def get_imgs():
 
     return {'sources': src }
 
+
+# Saves a new coord in the database according to the JSON in the request 
 @app.route("/savecoord", methods=['POST'])
 def save_coord():
     
@@ -83,10 +86,67 @@ def save_coord():
         return str(e)
 
 
-
 # Returns a connection instance to the MongoDB cluster
 def connectToMongo():
 
     client = pymongo.MongoClient("mongodb+srv://" + urllib.parse.quote_plus(config('MONGO_UN')) + ":" + urllib.parse.quote_plus(config('MONGO_PW')) + "@coordcluster.trg2t.mongodb.net/coord?retryWrites=true&w=majority",
     tls=True, tlsCAFile=certifi.where())
     return client
+
+
+# Searches in the database for a user matching the credentials in the 
+# post body. Returns JSON with a field for if they were found, plus a field
+# for user information if the account exists
+@app.route('/login', methods=['POST'])
+def login(): 
+
+    un = request.json['un']
+    pw = request.json['pw']
+    res = {}
+
+    try:
+        client = connectToMongo()
+        user_table = client['Coord']['User']
+        matching = user_table.find_one({'username': un})
+
+        # Handle nonexistent user
+        if matching is None: 
+            res['userState'] = 'not_found'
+            return res
+
+        # For an existing user, check to see if password matches
+
+        if bcrypt.checkpw(pw.encode('utf-8'), matching['password']):
+            res['userState'] = 'valid'
+        else:
+            res['userState'] = 'invalid'
+
+        return res
+
+    except Exception as e:
+        return str(e)
+
+# Creates a new user in the database with the given information 
+@app.route('/create_user', methods=['POST'])
+def create_user():
+
+    user_obj = {}
+    user_obj['username'] = request.json['un']
+    user_obj['password'] = bcrypt.hashpw(request.json['pw'].encode('utf-8'), bcrypt.gensalt())
+    user_obj['email'] = request.json['email']
+
+    client = connectToMongo()
+    user_table = client['Coord']['User']
+
+    res = {}
+
+    # Check that user doesn't already exist
+    if user_table.find_one({'username': request.json['un']}) != None:
+        res['userState'] = "exists"
+
+    else:
+        user_table.insert_one(user_obj)
+        res['userState'] = "success"
+        
+    return res
+    

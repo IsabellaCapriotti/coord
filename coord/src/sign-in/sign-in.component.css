@@ -6,16 +6,6 @@
     justify-content: center;
 }
 
-#sign-in-inner{
-    background-color: whitesmoke;
-    border-radius: 8px; 
-    min-width: 40vw; 
-    min-height: 60vh; 
-    margin-left: 5%; 
-}
-
-
-
 #sign-in-title{
     font-family: 'Comfortaa', sans-serif; 
     font-weight: 600; 
@@ -29,10 +19,72 @@
     color: var(--orange-light); 
 }
 
+
+#sign-in-inner{
+    background-color: whitesmoke;
+    border-radius: 8px; 
+    min-width: 40vw; 
+    min-height: 40vh; 
+    margin-left: 5%; 
+    padding: 15px; 
+    justify-content: space-evenly;
+}
+
+
+#sign-in-inner label{
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600; 
+    font-size: 2rem; 
+    color: var(--brown-light); 
+    margin-right: 10px; 
+}
+
+#sign-in-inner input{
+    background: none; 
+    font-family: 'Dosis', sans-serif; 
+    font-weight: 400;
+    font-size: 2rem; 
+    border: none; 
+    border-bottom: 2px solid var(--brown-dark); 
+    width: 65%; 
+}
+
+#sign-in-inner input:focus{
+    border: none;
+    border-bottom: 2px solid var(--brown-dark); 
+    outline: none; 
+}
+
+#sign-in-inner p{
+    font-family: 'Dosis', sans-serif; 
+    font-weight: 400; 
+    font-size: 1.3rem; 
+    color: var(--brown-dark); 
+}
+
+#sign-in-btn, #create-account-btn{
+    background-color: var(--brown-dark);
+    color: white; 
+    font-family: 'Dosis', sans-serif; 
+    font-weight: 600; 
+    font-size: 2rem; 
+    padding: 10px; 
+    border-radius: 8px; 
+    width: min-content;
+    align-self: center; 
+    transition: 1s linear background-color; 
+}
+
+#sign-in-btn:hover, #create-account-btn:hover{
+    cursor: pointer; 
+    background-color: var(--purple-dark); 
+}
+
+
 /* Clothing SVGs */ 
 #shirt-svg{
     position: relative;
-    transform: scale(15%); 
+    transform: scale(20%); 
     animation-name: shirt-move; 
     animation-duration: 3s; 
     animation-iteration-count: infinite;
@@ -58,7 +110,7 @@
 }
 
 #skirt-svg{
-    transform: scale(15%); 
+    transform: scale(20%); 
     position: relative;
     animation-name: skirt-move; 
     animation-duration: 3s; 
@@ -85,3 +137,9 @@
     }
 }
 
+@media screen and (max-width: 600px){
+
+    #shirt-svg, #skirt-svg{
+        transform: scale(35%); 
+    }
+}
