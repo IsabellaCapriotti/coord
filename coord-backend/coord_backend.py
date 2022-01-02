@@ -150,3 +150,22 @@ def create_user():
         
     return res
     
+# Checks whether a given username is taken
+@app.route('/un_available', methods=['POST'])
+def un_available():
+
+    un = request.json['un']
+    client = connectToMongo()
+    user_table = client['Coord']['User']
+
+    res = {}
+
+    # Check that user doesn't already exist
+    if user_table.find_one({'username': request.json['un']}) != None:
+        res['userState'] = "exists"
+    else:
+        res['userState'] = 'not_found'
+
+    return res
+    
+

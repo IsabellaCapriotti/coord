@@ -29,4 +29,9 @@ export class AuthService{
         this.isAuthenticated = newVal; 
         this.authSubj.next(newVal); 
     }
+
+    // Checks to see if a given username exists
+    check_un(un : string){
+        return this.http.post(environment.apiUrl + '/un_available', {'un':un});
+    }
 }

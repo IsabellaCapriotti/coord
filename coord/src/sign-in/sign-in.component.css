@@ -28,6 +28,7 @@
     margin-left: 5%; 
     padding: 15px; 
     justify-content: space-evenly;
+    position: relative; 
 }
 
 
@@ -62,6 +63,14 @@
     color: var(--brown-dark); 
 }
 
+#create-account-notice{
+    color: var(--orange-med);
+}
+
+#create-account-notice:hover{
+    cursor: pointer; 
+}
+
 #sign-in-btn, #create-account-btn{
     background-color: var(--brown-dark);
     color: white; 
@@ -78,6 +87,11 @@
 #sign-in-btn:hover, #create-account-btn:hover{
     cursor: pointer; 
     background-color: var(--purple-dark); 
+}
+
+#sign-in-btn:disabled, #create-account-btn:disabled{
+    background-color: gray;
+    cursor: default; 
 }
 
 

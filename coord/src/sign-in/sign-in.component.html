@@ -4,27 +4,32 @@
         <h1 id="sign-in-title">Welcome to <span>Coord</span></h1>
         <div class="col-container" id="sign-in-inner">
 
-            <!-- Message for account creation -->
+            <!-- Notices/error message -->
             <p *ngIf="new_user">Looks like that account doesn't exist yet- but it will soon!</p>
+            <p *ngIf="pw_error">The username and password you entered don't match our records. Try again or <span (click)="switchToCreateMode()" id="create-account-notice">create an account</span> if you're new.</p>
+            <p *ngIf="entry_error" [innerText]="entry_error_msg"></p>
 
             <!-- Username/password entry -->
             <div class="row-container">
                 <label for="un-entry">Username: </label>
-                <input type="text" name="un-entry" [(ngModel)]="curr_un">
+                <input type="text" name="un-entry" [(ngModel)]="curr_un" (input)="onEntryChange()">
             </div>
 
             <div *ngIf="new_user" class="row-container">
                 <label for="email-entry">Email: </label>
-                <input type="email" name="email-entry" [(ngModel)]="curr_email">
+                <input type="email" name="email-entry" [(ngModel)]="curr_email" (input)="onEntryChange()">
             </div>
 
             <div class="row-container">
                 <label for="pw-entry">Password: </label>
-                <input type="password" name="pw-entry" [(ngModel)]="curr_pw">
+                <input type="password" name="pw-entry" [(ngModel)]="curr_pw" (input)="onEntryChange()">
             </div>
 
-            <button *ngIf="!new_user" id="sign-in-btn" (click)="onSignInBtnClick()">LOG IN</button>
-            <button *ngIf="new_user" id="create-account-btn" (click)="onCreateBtnClick()">CREATE</button>
+            <ngx-spinner [fullScreen]="false" type="ball-circus" color="#FFCF99" name="sign-in-spinner"></ngx-spinner>
+
+
+            <button *ngIf="!new_user" id="sign-in-btn" (click)="onSignInBtnClick()" [disabled]="!btn_active" >LOG IN</button>
+            <button *ngIf="new_user" id="create-account-btn" (click)="onCreateBtnClick()" [disabled]="!btn_active" >CREATE</button>
         </div>
     </div>
    

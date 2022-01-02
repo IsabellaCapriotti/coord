@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'; 
 import { AuthService } from 'src/service/auth.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
     selector: 'sign-in',
@@ -13,13 +14,17 @@ export class SignInComponent{
     curr_email : string = ""; 
 
     new_user : boolean = false;
+    pw_error : boolean = false; 
+    entry_error : boolean = false; 
+    entry_error_msg : string = ""; 
 
-    constructor(private authService : AuthService){}
+    btn_active : boolean = false; 
+
+    constructor(private authService : AuthService, private spinner : NgxSpinnerService ){}
 
     onSignInBtnClick(){
 
-        console.log(this.curr_un + " " + this.curr_pw); 
-
+        this.spinner.show('sign-in-spinner'); 
         this.authService.login(this.curr_un, this.curr_pw).toPromise().then( (res:any) => {
             
             // Handle user that doesn't exist
@@ -29,6 +34,12 @@ export class SignInComponent{
             else if(res['userState'] == 'valid'){
                 this.authService.setAuthenticated(true); 
             }
+            else if(res['userState'] == 'invalid'){
+                this.new_user = false; 
+                this.pw_error = true; 
+            }
+
+            this.spinner.hide('sign-in-spinner'); 
 
         }); 
 
@@ -36,17 +47,81 @@ export class SignInComponent{
 
     onCreateBtnClick(){
 
-        // Create a new user in the database
+        // Create a new user in the database        
+        this.spinner.show('sign-in-spinner'); 
+
         this.authService.create_user(this.curr_un, this.curr_pw, this.curr_email).toPromise().then( (res:any) => {
-            console.log(res); 
+            
+            // Successful new user
             if(res['userState'] == 'success'){
+                this.spinner.hide('sign-in-spinner'); 
+
                 this.authService.setAuthenticated(true); 
             }
         }); 
 
     }
 
+    switchToCreateMode(){
+        this.new_user = true; 
+        this.pw_error = false; 
+    }
+
     validateUserInfo(){
-        return this.curr_un != "" && this.curr_pw != "" && this.curr_email != ""
+        
+        // Username check 
+        let un_re = /^[a-z0-9_-]{3,}$/g;
+        
+        if(!un_re.test(this.curr_un)){
+            this.entry_error = true; 
+            this.entry_error_msg = "Please enter a username that is at least 3 characters long and contains only letters, numbers, and undescores."
+            return false; 
+        }
+
+        // For new accounts, check if username isn't taken
+        if(this.new_user){
+
+            let isValid = this.authService.check_un(this.curr_un).toPromise().then( (res:any) => {
+                if(res['userState'] == 'exists'){
+                    this.entry_error = true; 
+                    this.entry_error_msg = "That username already exists!"; 
+                    return false; 
+                }
+                return true;
+            });
+
+            if(!isValid){
+                return false; 
+            }
+        }
+
+        // Password check 
+        if(this.new_user){
+            let pw_re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g; 
+
+            if(!pw_re.test(this.curr_pw)){
+                this.entry_error = true; 
+                this.entry_error_msg = "Passwords must be at least 8 digits long and contain 1 uppercase character, 1 lowercase character, 1 digit, and 1 special character."; 
+                return false; 
+            }
+        }
+
+        // Email check
+        if(this.new_user){
+            let email_re = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g; 
+            if(!email_re.test(this.curr_email)){
+                this.entry_error = true; 
+                this.entry_error_msg = "Please enter a valid email address."; 
+                return false; 
+            }
+        }
+
+        this.entry_error = false; 
+        return true;
+    }
+
+    onEntryChange(){
+
+        this.btn_active = this.validateUserInfo(); 
     }
 }
