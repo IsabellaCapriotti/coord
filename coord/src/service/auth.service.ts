@@ -58,13 +58,29 @@ export class AuthService{
         this.sessionID = newID; 
     }
 
-    // Checks if the current user has a valid session active
-    check_session(){
+    // Checks if the current user has a valid session active; returns true if so, false if not
+    async check_session(){
         console.log('checking session'); 
-        this.http.post(environment.apiUrl + '/check_session', {'id': this.authUserID, 'session_id': this.sessionID}, {
+        await this.http.post(environment.apiUrl + '/check_session', {'id': this.authUserID, 'session_id': this.sessionID}, {
             responseType: 'text'
         }).toPromise().then( (res:any) =>{
-            console.log(res); 
+            
+            // Generate a new session ID if the user is authenticated
+            if(res == "true"){
+                this.gen_session().toPromise().then( (newID:any) => {
+                    this.sessionID = newID; 
+                    console.log('session is valid!'); 
+
+                    return true; 
+                }); 
+            }
+            else{
+                console.log('session is not valid :('); 
+
+                return false; 
+            }
+            return false; 
+            
         }); 
     }
 }

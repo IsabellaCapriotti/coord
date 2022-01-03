@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core'; 
 import { AuthService } from 'src/service/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
     templateUrl: './sign-in.component.html',
     styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent{
+export class SignInComponent implements OnInit{
 
     curr_un : string = "";
     curr_pw : string = "";
@@ -25,6 +25,12 @@ export class SignInComponent{
 
     constructor(private authService : AuthService, private spinner : NgxSpinnerService,
     private router : Router ){}
+
+    async ngOnInit(){
+        // Check if a valid session already exists; if it does, skip login for this user
+        let session_state = await this.authService.check_session(); 
+        console.log('got session state: ' + session_state); 
+    }
 
     onSignInBtnClick(){
 
