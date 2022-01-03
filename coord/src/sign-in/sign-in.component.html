@@ -30,6 +30,14 @@
 
             <button *ngIf="!new_user" id="sign-in-btn" (click)="onSignInBtnClick()" [disabled]="!btn_active" >LOG IN</button>
             <button *ngIf="new_user" id="create-account-btn" (click)="onCreateBtnClick()" [disabled]="!btn_active" >CREATE</button>
+
+            <!-- Option to stay logged in -->
+            <div class="row-container" style="align-items: center; justify-content: flex-start;">
+                <label id="remember-me-label" for="remember-me">Stay logged in?</label>
+                <input type="checkbox" style="width: min-content; margin-left: 10px;"
+                [checked]="create_session" (change)="create_session = !create_session"
+                >
+            </div>
         </div>
     </div>
    

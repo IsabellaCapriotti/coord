@@ -79,7 +79,7 @@
     font-size: 2rem; 
     padding: 10px; 
     border-radius: 8px; 
-    width: min-content;
+    /*width: min-content;*/
     align-self: center; 
     transition: 1s linear background-color; 
 }
@@ -92,6 +92,12 @@
 #sign-in-btn:disabled, #create-account-btn:disabled{
     background-color: gray;
     cursor: default; 
+}
+
+#sign-in-inner #remember-me-label{
+    font-size: 1.3rem; 
+    font-weight: 400; 
+    color: var(--brown-light); 
 }
 
 

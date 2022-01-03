@@ -1,7 +1,6 @@
 from flask import Flask, request, make_response
 from flask_cors import CORS
 from bs4 import BeautifulSoup
-import requests
 import pymongo
 from decouple import config
 import urllib
@@ -9,6 +8,9 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 import certifi
 import bcrypt
+import random
+import bson
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -118,6 +120,7 @@ def login():
 
         if bcrypt.checkpw(pw.encode('utf-8'), matching['password']):
             res['userState'] = 'valid'
+            res['userID'] = str(matching['_id'])
         else:
             res['userState'] = 'invalid'
 
@@ -167,5 +170,76 @@ def un_available():
         res['userState'] = 'not_found'
 
     return res
+
+# Returns the entry in the session table for the passed user ID if it exists, None if it does not
+def sessionExists(id, client):
+
+    session_table = client['Coord']['Session']
+    print('looking for session for ' + id)
+    match = session_table.find_one({'user_id': bson.objectid.ObjectId(id)})
+
+    if match is None:
+        return None
+    else:
+        return match  
+
+# Creates a new session code for the passed user, or overwrites the existing one if it exists
+# Returns the new session ID created
+@app.route('/create_session', methods=['POST'])
+def create_session():
     
+    id = request.json['id']
+
+    client = connectToMongo()
+
+    # Find session matching passed ID
+    match = sessionExists(id, client)
+
+    # Create or update session key
+    session_table = client['Coord']['Session']
+    key = bson.objectid.ObjectId()
+    new_session = {
+        'user_id': bson.objectid.ObjectId(id),
+        'key': key,
+        'created': datetime.datetime.now() 
+    }
+
+    if match is None:
+        session_table.insert_one(new_session)
+
+    else: 
+        session_table.replace_one({'user_id': bson.objectid.ObjectId(id)}, new_session)
+
+    return str(key)
+
+# Checks if a valid session (created within the last day) exists for the passed user
+@app.route('/check_session', methods=['POST'])
+def check_session():
+    id = request.json['id']
+    session_id = request.json['session_id']
+
+    client = connectToMongo()
+
+    # Find session matching passed ID
+    match = sessionExists(id, client)
+
+    # If no match exists, automatically not valid
+    if match is None:
+        return "false"
+
+    # If a match does exist, check that the session key matches the passed key and that it 
+    # was created within the last 24 hours
+    if match['key'] != bson.objectid.ObjectId(session_id):
+        return "false"
+    last_session_date = match['created']
+    diff = datetime.datetime.now() - last_session_date
+    secs_in_day = 24 * 60 * 60 
+    
+    if diff.total_seconds() >= secs_in_day:
+        return "false"
+
+    return "true"
+
+
+
 

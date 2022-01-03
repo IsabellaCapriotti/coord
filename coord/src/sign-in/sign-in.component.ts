@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'; 
 import { AuthService } from 'src/service/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'sign-in',
@@ -20,7 +21,10 @@ export class SignInComponent{
 
     btn_active : boolean = false; 
 
-    constructor(private authService : AuthService, private spinner : NgxSpinnerService ){}
+    create_session : boolean = false; 
+
+    constructor(private authService : AuthService, private spinner : NgxSpinnerService,
+    private router : Router ){}
 
     onSignInBtnClick(){
 
@@ -32,14 +36,30 @@ export class SignInComponent{
                 this.new_user = true; 
             }
             else if(res['userState'] == 'valid'){
-                this.authService.setAuthenticated(true); 
+                
+                // Create session
+                this.authService.setAuthID(res['userID']); 
+
+
+                this.authService.gen_session().toPromise().then( (res:any) => {
+                    // console.log('session id: ' + res); 
+
+                    this.authService.setSessionID(res); 
+                    this.authService.setAuthenticated(true);
+
+                    this.spinner.hide('sign-in-spinner'); 
+
+                    this.router.navigate(['/my-coords']); 
+
+                }); 
             }
             else if(res['userState'] == 'invalid'){
                 this.new_user = false; 
                 this.pw_error = true; 
+                this.spinner.hide('sign-in-spinner'); 
+
             }
 
-            this.spinner.hide('sign-in-spinner'); 
 
         }); 
 
@@ -57,6 +77,8 @@ export class SignInComponent{
                 this.spinner.hide('sign-in-spinner'); 
 
                 this.authService.setAuthenticated(true); 
+                this.router.navigate(['/my-coords'])
+
             }
         }); 
 
@@ -74,7 +96,7 @@ export class SignInComponent{
         
         if(!un_re.test(this.curr_un)){
             this.entry_error = true; 
-            this.entry_error_msg = "Please enter a username that is at least 3 characters long and contains only letters, numbers, and undescores."
+            this.entry_error_msg = "Please enter a username that is at least 3 characters long and contains only letters, numbers, and underscores."
             return false; 
         }
 
@@ -101,7 +123,7 @@ export class SignInComponent{
 
             if(!pw_re.test(this.curr_pw)){
                 this.entry_error = true; 
-                this.entry_error_msg = "Passwords must be at least 8 digits long and contain 1 uppercase character, 1 lowercase character, 1 digit, and 1 special character."; 
+                this.entry_error_msg = "Passwords must be at least 8 digits long and contain at least 1 uppercase character, 1 lowercase character, and 1 digit."; 
                 return false; 
             }
         }
@@ -121,7 +143,8 @@ export class SignInComponent{
     }
 
     onEntryChange(){
-
         this.btn_active = this.validateUserInfo(); 
     }
+
+
 }

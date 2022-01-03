@@ -23,6 +23,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NgxSpinnerModule } from "ngx-spinner"; 
+import { MyCoordsComponent } from 'src/my-coords/my-coords.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: false
@@ -39,7 +40,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ProductImgCardComponent,
     ProductPanelComponent,
     EditorImgComponent,
-    SignInComponent
+    SignInComponent,
+    MyCoordsComponent
   ],
   imports: [
     BrowserModule,
