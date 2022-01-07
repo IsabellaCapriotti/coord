@@ -11,6 +11,6 @@ export class MyCoordsComponent implements OnInit{
     constructor( private authService : AuthService){}
 
     ngOnInit(){
-        this.authService.check_session(); 
+        //this.authService.check_session(); 
     }
 }

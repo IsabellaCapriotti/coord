@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
     templateUrl: './sign-in.component.html',
     styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent implements OnInit{
+export class SignInComponent{
 
     curr_un : string = "";
     curr_pw : string = "";
@@ -26,48 +26,60 @@ export class SignInComponent implements OnInit{
     constructor(private authService : AuthService, private spinner : NgxSpinnerService,
     private router : Router ){}
 
-    async ngOnInit(){
+    ngOnInit(){
         // Check if a valid session already exists; if it does, skip login for this user
-        let session_state = await this.authService.check_session(); 
-        console.log('got session state: ' + session_state); 
+        this.authService.check_session().then( (res:any) => {
+            console.log('session state: ' + res); 
+
+            if(res){
+                this.router.navigate(['/my-coords']); 
+            }
+        }); 
     }
 
     onSignInBtnClick(){
 
         this.spinner.show('sign-in-spinner'); 
-        this.authService.login(this.curr_un, this.curr_pw).toPromise().then( (res:any) => {
-            
+        this.authService.login(this.curr_un, this.curr_pw).then( (res:any)=> {
+
             // Handle user that doesn't exist
             if(res['userState'] == 'not_found'){
                 this.new_user = true; 
+                this.entry_error = false; 
+                this.pw_error = false; 
+                this.spinner.hide('sign-in-spinner'); 
             }
+            // Handle valid user; 
             else if(res['userState'] == 'valid'){
                 
                 // Create session
-                this.authService.setAuthID(res['userID']); 
+                if(this.create_session){
+                    console.log('creating session'); 
+                    this.authService.gen_session().then( (res:any) => {
+                
+                        this.spinner.hide('sign-in-spinner'); 
 
+                        this.new_user = false; 
+                        this.entry_error = false; 
+                        this.pw_error = false; 
 
-                this.authService.gen_session().toPromise().then( (res:any) => {
-                    // console.log('session id: ' + res); 
+                        this.router.navigate(['/my-coords']); 
 
-                    this.authService.setSessionID(res); 
-                    this.authService.setAuthenticated(true);
-
-                    this.spinner.hide('sign-in-spinner'); 
-
+                    }); 
+                }
+                else{
                     this.router.navigate(['/my-coords']); 
-
-                }); 
+                }
             }
+            // Handle invalid credentials
             else if(res['userState'] == 'invalid'){
                 this.new_user = false; 
                 this.pw_error = true; 
                 this.spinner.hide('sign-in-spinner'); 
 
             }
-
-
-        }); 
+        }
+        ); 
 
     }
 
@@ -76,15 +88,35 @@ export class SignInComponent implements OnInit{
         // Create a new user in the database        
         this.spinner.show('sign-in-spinner'); 
 
-        this.authService.create_user(this.curr_un, this.curr_pw, this.curr_email).toPromise().then( (res:any) => {
+        this.authService.create_user(this.curr_un, this.curr_pw, this.curr_email).then( (res:any) => {
             
             // Successful new user
             if(res['userState'] == 'success'){
+                this.new_user = false; 
+                this.entry_error = false; 
+                this.pw_error = false; 
+
+                // Create session
+                if(this.create_session){
+                    console.log('creating session'); 
+
+                    this.authService.gen_session().then( (res:any) => {
+                        this.spinner.hide('sign-in-spinner'); 
+                        this.router.navigate(['/my-coords'])
+                    }); 
+                }
+                else{
+                    this.router.navigate(['/my-coords']); 
+                }
+
+            }
+            // User already exists
+            else if(res['userState'] == 'exists'){
+                this.entry_error_msg = "Looks like an account with that username already exists. Please try logging in instead!"; 
+                this.entry_error = true; 
+                this.new_user = false; 
+                this.pw_error = false; 
                 this.spinner.hide('sign-in-spinner'); 
-
-                this.authService.setAuthenticated(true); 
-                this.router.navigate(['/my-coords'])
-
             }
         }); 
 
@@ -104,23 +136,6 @@ export class SignInComponent implements OnInit{
             this.entry_error = true; 
             this.entry_error_msg = "Please enter a username that is at least 3 characters long and contains only letters, numbers, and underscores."
             return false; 
-        }
-
-        // For new accounts, check if username isn't taken
-        if(this.new_user){
-
-            let isValid = this.authService.check_un(this.curr_un).toPromise().then( (res:any) => {
-                if(res['userState'] == 'exists'){
-                    this.entry_error = true; 
-                    this.entry_error_msg = "That username already exists!"; 
-                    return false; 
-                }
-                return true;
-            });
-
-            if(!isValid){
-                return false; 
-            }
         }
 
         // Password check 
