@@ -24,6 +24,8 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NgxSpinnerModule } from "ngx-spinner"; 
 import { MyCoordsComponent } from 'src/my-coords/my-coords.component';
+import { LoginGuard } from 'src/utils/loginGuard';
+import { LoggedInGuard } from 'src/utils/loggedInGuard';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: false
@@ -59,7 +61,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     {
     provide: PERFECT_SCROLLBAR_CONFIG,
     useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }
+  }, 
+  LoginGuard,
+  LoggedInGuard
   ],
   bootstrap: [AppComponent]
 })

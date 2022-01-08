@@ -124,7 +124,9 @@ def login():
         else:
             res['userState'] = 'invalid'
 
+
         return res
+
 
     except Exception as e:
         return str(e)
@@ -147,10 +149,13 @@ def create_user():
     if user_table.find_one({'username': request.json['un']}) != None:
         res['userState'] = "exists"
 
+    # Create new user
     else:
         user_table.insert_one(user_obj)
+        new_user = user_table.find_one({'username': request.json['un']})
         res['userState'] = "success"
-        
+        res['userID'] = str(new_user['_id'])
+    
     return res
     
 # Checks whether a given username is taken
@@ -172,7 +177,7 @@ def un_available():
     return res
 
 # Returns the entry in the session table for the passed user ID if it exists, None if it does not
-def sessionExists(id, client):
+def sessionExists(id,client):
 
     session_table = client['Coord']['Session']
     print('looking for session for ' + id)

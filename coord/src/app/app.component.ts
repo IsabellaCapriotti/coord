@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/service/auth.service';
+import { Router, Event as RouterEvent, NavigationStart, NavigationEnd } from "@angular/router"; 
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,17 @@ export class AppComponent {
 
   auth : boolean = false 
 
-  constructor( private authService : AuthService ){
+  constructor( private router : Router, private spinner : NgxSpinnerService ){
 
-    this.authService.authSubj.subscribe((newState : boolean) => {
-      this.auth = newState; 
+    this.router.events.subscribe( (e : any) => {
+      console.log(e); 
+
+      if(e instanceof NavigationStart){
+        this.spinner.show("page-load"); 
+      }
+      else if(e instanceof NavigationEnd){
+        this.spinner.hide("page-load"); 
+      }
     }); 
   }
 

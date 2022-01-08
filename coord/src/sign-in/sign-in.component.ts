@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'; 
 import { AuthService } from 'src/service/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, GuardsCheckStart, GuardsCheckEnd } from '@angular/router';
 
 @Component({
     selector: 'sign-in',
@@ -24,7 +24,21 @@ export class SignInComponent{
     create_session : boolean = false; 
 
     constructor(private authService : AuthService, private spinner : NgxSpinnerService,
-    private router : Router ){}
+    private router : Router ){
+
+        // Handling router events
+        // this.router.events.subscribe( ( e : RouterEvent )=> {
+            
+        //     console.log('gottie'); 
+        //     console.log(e); 
+        //     if(e instanceof GuardsCheckStart){
+        //         this.spinner.show("page-load"); 
+        //     }
+        //     else{
+        //         this.spinner.hide("page-load"); 
+        //     }
+        // })
+    }
 
     ngOnInit(){
         // Check if a valid session already exists; if it does, skip login for this user
@@ -53,23 +67,19 @@ export class SignInComponent{
             else if(res['userState'] == 'valid'){
                 
                 // Create session
-                if(this.create_session){
-                    console.log('creating session'); 
-                    this.authService.gen_session().then( (res:any) => {
-                
+                console.log('creating session'); 
+                this.authService.gen_session().then( (res:any) => {
+
+                    this.new_user = false; 
+                    this.entry_error = false; 
+                    this.pw_error = false; 
+
+                    this.router.navigate(['/my-coords']).then( () => {
                         this.spinner.hide('sign-in-spinner'); 
-
-                        this.new_user = false; 
-                        this.entry_error = false; 
-                        this.pw_error = false; 
-
-                        this.router.navigate(['/my-coords']); 
-
                     }); 
-                }
-                else{
-                    this.router.navigate(['/my-coords']); 
-                }
+
+                }); 
+            
             }
             // Handle invalid credentials
             else if(res['userState'] == 'invalid'){
@@ -96,18 +106,14 @@ export class SignInComponent{
                 this.entry_error = false; 
                 this.pw_error = false; 
 
-                // Create session
-                if(this.create_session){
-                    console.log('creating session'); 
+                console.log('creating session'); 
 
-                    this.authService.gen_session().then( (res:any) => {
+                this.authService.gen_session().then( (res:any) => {
+                    this.router.navigate(['/my-coords']).then( () => {
                         this.spinner.hide('sign-in-spinner'); 
-                        this.router.navigate(['/my-coords'])
-                    }); 
-                }
-                else{
-                    this.router.navigate(['/my-coords']); 
-                }
+                    })
+                }); 
+                    
 
             }
             // User already exists

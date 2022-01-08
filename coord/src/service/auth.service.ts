@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Subject, lastValueFrom } from "rxjs";
+import { Router } from "@angular/router"; 
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService{
     // Subject for checking session is valid every 10 minutes
     checkSessionSubj : Subject<boolean> = new Subject<boolean>(); 
 
-    constructor( private http : HttpClient ){
+    constructor( private http : HttpClient, private router : Router ){
 
         this.authUserID = this.get_coord_user_cookie(); 
         this.sessionID = this.get_session_id_cookie(); 
@@ -137,8 +138,54 @@ export class AuthService{
         }
         ));
 
+        if(server_res == "true"){
+            this.isAuthenticated = true; 
+        }
+        else{
+            this.isAuthenticated = false; 
+        }
+
         return server_res == "true" ? true : false; 
     }
 
+    // Version of checking the session that returns a Boolean or URL tree for use in the guard for views. Returns true for a valid auth session, 
+    // and a redirect to the login page otherwise
+    async session_guard(){
+
+        let curr_session_id = this.get_session_id_cookie();
+        let curr_user_id = this.get_coord_user_cookie(); 
+
+        if(curr_session_id == "" || curr_user_id == ""){
+            return this.router.createUrlTree(['/login']); 
+        }
+
+        // Server-side check
+        let server_res = await lastValueFrom(this.http.post(environment.apiUrl + '/check_session', {'id': curr_user_id, 'session_id': curr_session_id}, {
+            responseType: 'text'
+        }
+        ));
+
+        return server_res == "true" ? true : this.router.createUrlTree(['/login']); 
+    }
+
+    // Similar to the above function, but ensures that pages that should only be shown to unauthenticated users cannot be accessed if already 
+    // signed in. 
+    async loggedIn_guard(){
+
+        let curr_session_id = this.get_session_id_cookie();
+        let curr_user_id = this.get_coord_user_cookie(); 
+
+        if(curr_session_id == "" || curr_user_id == ""){
+            return true; 
+        }
+
+        // Server-side check
+        let server_res = await lastValueFrom(this.http.post(environment.apiUrl + '/check_session', {'id': curr_user_id, 'session_id': curr_session_id}, {
+            responseType: 'text'
+        }
+        ));
+
+        return server_res == "false" ? true : this.router.createUrlTree(['/my-coords']); 
+    }
    
 }
