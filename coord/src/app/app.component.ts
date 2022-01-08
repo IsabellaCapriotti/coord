@@ -15,8 +15,7 @@ export class AppComponent {
   constructor( private router : Router, private spinner : NgxSpinnerService ){
 
     this.router.events.subscribe( (e : any) => {
-      console.log(e); 
-
+      
       if(e instanceof NavigationStart){
         this.spinner.show("page-load"); 
       }

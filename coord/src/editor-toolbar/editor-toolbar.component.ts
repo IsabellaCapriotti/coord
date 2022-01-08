@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'; 
 import { SaveCoordService } from 'src/service/save_coords.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
     selector: 'editor-toolbar',
@@ -9,8 +10,9 @@ import { SaveCoordService } from 'src/service/save_coords.service';
 export class EditorToolbarComponent{
 
     isSaveEnabled : boolean = false; 
+    saving : boolean = false; 
 
-    constructor (private saveCoordService : SaveCoordService){
+    constructor (private saveCoordService : SaveCoordService, private spinner : NgxSpinnerService ){
 
         // Wait for coord to be initialized to activate save button
         this.saveCoordService.coordInitializedSubj.subscribe( (newState : boolean) => {
@@ -20,8 +22,12 @@ export class EditorToolbarComponent{
 
     onSaveCoordBtnClick(){
 
-        this.saveCoordService.saveCoord().toPromise().then( (res:any) => {
-            console.log('successfully saved coord'); 
+        this.saving = true; 
+        this.spinner.show("saving-spinner"); 
+        this.saveCoordService.saveCoord().then( (res:any) => {
+            console.log(res); 
+            this.spinner.hide("saving-spinner"); 
+            this.saving = false; 
         }); 
     }
 }

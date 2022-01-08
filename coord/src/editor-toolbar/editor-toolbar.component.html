@@ -2,6 +2,13 @@
     <h1 id="site-title">Coord</h1>
 
     <button *ngIf="isSaveEnabled" id="saveBtn" class="noBorderBtn" (click)="onSaveCoordBtnClick()">
-        <mat-icon>save</mat-icon>
+        <mat-icon style="color: white;">save</mat-icon>
     </button>
 </nav>
+
+<div class="screen-cover" *ngIf="saving">
+    <div id="saving-coord-popup">
+        <h1>Now Saving...</h1>
+        <ngx-spinner name="saving-spinner" type="ball-circus"></ngx-spinner>
+    </div>
+</div>

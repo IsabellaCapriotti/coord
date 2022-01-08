@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/service/auth.service";
-import { Router, Event as RouterEvent } from "@angular/router";
+import { SaveCoordService } from "src/service/save_coords.service";
 
 @Component({
     'selector': 'my-coords',
@@ -9,11 +8,19 @@ import { Router, Event as RouterEvent } from "@angular/router";
 })
 export class MyCoordsComponent implements OnInit{
 
-    constructor( private authService : AuthService, private router : Router ){
+    // List of saved coords to show
+    savedCoords : any[] = []; 
+
+    constructor( private saveCoordService : SaveCoordService ){
 
     }
 
     ngOnInit(){
-        //this.authService.check_session(); 
+        
+        // Get initial saved coords 
+        this.saveCoordService.get_saved_coords().then( (res:any) => {
+            console.log('in mycoords'); 
+            console.log(res); 
+        })
     }
 }

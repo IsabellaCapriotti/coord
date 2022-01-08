@@ -11,10 +11,14 @@ import bcrypt
 import random
 import bson
 import datetime
+import json
 
 app = Flask(__name__)
 CORS(app)
 
+##################################################################
+# IMAGE FETCH
+##################################################################
 @app.route("/getimgs", methods=['POST'])
 def get_imgs():
     #print(request.json)
@@ -73,6 +77,10 @@ def get_imgs():
     return {'sources': src }
 
 
+
+##################################################################
+# SAVING / LOADING COORDS
+##################################################################
 # Saves a new coord in the database according to the JSON in the request 
 @app.route("/savecoord", methods=['POST'])
 def save_coord():
@@ -83,11 +91,41 @@ def save_coord():
         client = connectToMongo()
         saved_coords = client['Coord']['SavedCoords']
         saved_coords.insert_one(request.json)
-        return "Successfully connected to DB"
+        return "Created Coord"
     except Exception as e:
         return str(e)
 
 
+
+# Returns JSON for all the coords saved in the database for the user ID specified in 
+# the request body.
+@app.route("/getsavedcoords", methods=['GET'])
+def get_saved_coords(): 
+    
+    userID = request.args.get('userID'); 
+
+    # Find all coords matching this user
+    client = connectToMongo()
+    coords_table = client['Coord']['SavedCoords']
+    print('looking for coords under ' + userID) 
+
+    found_coords = list(coords_table.find({'userID':userID}))
+    
+    res = {'foundCoords': []}
+
+    for coord in found_coords: 
+        new_item = {
+
+            'userID': userID,
+            'coordID': str(coord['_id']),
+            'products': coord['products'],
+            'width': coord['width'],
+            'height': coord['height']
+
+        }
+        res['foundCoords'].append(new_item)
+
+    return res
 # Returns a connection instance to the MongoDB cluster
 def connectToMongo():
 
@@ -96,9 +134,14 @@ def connectToMongo():
     return client
 
 
+
+##################################################################
+# AUTHENTICATION
+##################################################################
+
 # Searches in the database for a user matching the credentials in the 
 # post body. Returns JSON with a field for if they were found, plus a field
-# for user information if the account exists
+# for the user ID if the account exists
 @app.route('/login', methods=['POST'])
 def login(): 
 
@@ -131,7 +174,8 @@ def login():
     except Exception as e:
         return str(e)
 
-# Creates a new user in the database with the given information 
+# Creates a new user in the database with the given information. Returns JSON with a field for
+# the result of the operation and a field for the newly created user ID if successful
 @app.route('/create_user', methods=['POST'])
 def create_user():
 
@@ -158,7 +202,7 @@ def create_user():
     
     return res
     
-# Checks whether a given username is taken
+# Checks whether a given username is taken. Returns JSON with a field for whether the user exists or not
 @app.route('/un_available', methods=['POST'])
 def un_available():
 
@@ -217,7 +261,8 @@ def create_session():
 
     return str(key)
 
-# Checks if a valid session (created within the last day) exists for the passed user
+# Checks if a valid session (created within the last day) exists for the passed user. Returns true or 
+# false depending on session validity
 @app.route('/check_session', methods=['POST'])
 def check_session():
     id = request.json['id']

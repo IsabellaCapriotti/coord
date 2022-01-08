@@ -5,6 +5,7 @@ nav{
     height: 8vh; 
     padding: 8px;
     justify-content: space-between; 
+    align-items: center;
 }
 
 #site-title{
@@ -13,6 +14,18 @@ nav{
     font-size: 2.5rem;
 }
 
-nav #saveBtn{
-    color: white;
+.screen-cover{
+    display: flex; 
+    flex-flow: row; 
+    align-items: center;
+    justify-content: center;
+}
+
+#saving-coord-popup h1{
+    
+    font-family: 'Dosis', sans-serif; 
+    font-size: 3rem; 
+    color: white; 
+    font-weight: 500; 
+    
 }

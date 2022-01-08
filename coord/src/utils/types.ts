@@ -35,14 +35,18 @@ export class Product{
 
 export class Coord{
 
+    userID : string = "";
+    coordID : string = ""; 
+
     products : Product[] = []; 
     width : number = 0; 
     height : number = 0; 
 
-    constructor(newProds : Product[], dimX : number, dimY : number){
+    constructor(newProds : Product[], dimX : number, dimY : number, userID : string){
         this.products = newProds; 
         this.width = dimX; 
         this.height = dimY; 
+        this.userID = userID; 
     }
     
 }

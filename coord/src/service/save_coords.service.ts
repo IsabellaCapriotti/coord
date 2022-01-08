@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Coord, Product } from '../utils/types';
-import { Subject } from 'rxjs'; 
+import { Subject, lastValueFrom } from 'rxjs'; 
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -22,22 +23,32 @@ export class SaveCoordService{
     coordWidth : number = 0; 
     coordHeight : number = 0; 
 
-    constructor( private http : HttpClient){}
+    constructor( private http : HttpClient, private authService : AuthService ){}
 
 
-    saveCoord(){
+    // *********************************************************
+    // SAVING / CREATING NEW COORDS
+    // *********************************************************
+    async saveCoord(){
 
         // Create Coord JSON to send to database
-        let newCoord = new Coord(this.productsList, this.coordWidth, this.coordHeight); 
+        let userID = this.authService.get_coord_user_cookie(); 
 
-        return this.http.post(environment.apiUrl + '/savecoord', JSON.stringify(newCoord),
+        let newCoord = new Coord(this.productsList, this.coordWidth, this.coordHeight, userID); 
+
+        return await lastValueFrom(this.http.post(environment.apiUrl + '/savecoord', JSON.stringify(newCoord),
         {
             'headers':
             {'Content-Type': 'application/json'},
             'responseType': 'text'
-        }); 
+        }));
+               
     }  
 
+    
+    // *********************************************************
+    // UPDATING CURRENTLY EDITING COORD 
+    // *********************************************************
     // Adds a new product to the list 
     addProduct(newProd : Product){
         this.productsInCoord.set(newProd.productID, newProd); 
@@ -89,5 +100,17 @@ export class SaveCoordService{
         this.coordInitializedSubj.next(this.coordInitialized); 
 
     }
+    
+    // *********************************************************
+    // LOADING SAVED COORDS
+    // *********************************************************
+    async get_saved_coords(){
 
+        // Get user ID
+        let userID = this.authService.get_coord_user_cookie(); 
+
+        // Retrieve saved coords for this user from backend
+        return await lastValueFrom( this.http.get(environment.apiUrl + '/getsavedcoords?userID=' + userID));
+        
+    }
 }
