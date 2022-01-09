@@ -1,6 +1,7 @@
 import { Component, HostBinding } from "@angular/core";
-import { Product } from "src/utils/types";
+import { Product, Coord } from "src/utils/types";
 import { SaveCoordService } from "src/service/save_coords.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'current-coord',
@@ -18,7 +19,22 @@ export class CurrentCoordComponent{
 
     @HostBinding('style.padding.px') pxOffset : number = 0; 
 
-    constructor(private saveCoordService : SaveCoordService){
+    isExistingCoord : boolean = false; 
+    coordID : string = ""; 
+
+    constructor(private saveCoordService : SaveCoordService, private route : ActivatedRoute ){
+
+        // Check if the route contains query parameter for an existing Coord or not
+        this.route.queryParams.subscribe( (qp : any) => {
+
+            if(qp.coordID != ""){
+                this.isExistingCoord = true; 
+                this.initialized = true; 
+                this.coordID = qp.coordID; 
+
+                this.loadCoord(); 
+            } 
+        }); 
 
         // Initialize default width and height
         this.editorWidth = screen.width; 
@@ -27,6 +43,7 @@ export class CurrentCoordComponent{
         // Subscribe to changes in active products list
         this.saveCoordService.productsInCoordSubj.subscribe( (newProds: Product[]) => {
             this.activeProducts = newProds; 
+            //console.log(this.activeProducts); 
         }); 
 
     }
@@ -36,5 +53,21 @@ export class CurrentCoordComponent{
         this.pxOffset = 10;
 
         this.saveCoordService.assignDimensions(this.editorWidth, this.editorHeight);
+    }
+
+    // Fetches and loads information on an existing Coord into the active editor.
+    loadCoord(){
+
+        this.saveCoordService.get_coord(this.coordID).then( (res:Coord) => {
+            console.log(res); 
+            // Update state to match fetched Coord
+            this.editorWidth = res['width']
+            this.editorHeight = res['height']
+            let prods = res['products']; 
+            this.activeProducts = prods; 
+            // for(let i=0; i < prods.length; i++){
+            //     this.saveCoordService.addProduct(prods[i]);
+            // }
+        }); 
     }
 }

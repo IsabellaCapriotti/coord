@@ -16,6 +16,7 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+
 ##################################################################
 # IMAGE FETCH
 ##################################################################
@@ -85,8 +86,6 @@ def get_imgs():
 @app.route("/savecoord", methods=['POST'])
 def save_coord():
     
-    print(request.json)
-
     try:
         client = connectToMongo()
         saved_coords = client['Coord']['SavedCoords']
@@ -126,6 +125,31 @@ def get_saved_coords():
         res['foundCoords'].append(new_item)
 
     return res
+
+# Returns JSON for the coord saved in the database matching the ID specified in the request parameter. 
+@app.route("/getcoord", methods=['GET'])
+def get_coord(): 
+
+    coordID = request.args.get('coordID')
+
+    client = connectToMongo()
+
+    coord = client['Coord']['SavedCoords'].find_one({'_id': bson.objectid.ObjectId(coordID)})
+
+    res = {'foundCoord': {
+            'userID': coord['userID'],
+            'coordID': str(coord['_id']),
+            'products': coord['products'],
+            'width': coord['width'],
+            'height': coord['height']
+    }}
+
+    print(res); 
+   
+    return res
+
+
+
 # Returns a connection instance to the MongoDB cluster
 def connectToMongo():
 

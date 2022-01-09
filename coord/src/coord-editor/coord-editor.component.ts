@@ -15,14 +15,6 @@ export class CoordEditorComponent{
 
     constructor( private saveCoordService : SaveCoordService, private route : ActivatedRoute ){
 
-        // Subscribe to changes in active products
-        this.saveCoordService.productsInCoordSubj.subscribe( (newProds : Product[]) => {
-            this.activeProducts = newProds; 
-        }); 
-
-        this.route.queryParams.subscribe( (params : any) => {
-            console.log(params); 
-        })
     }
 
 

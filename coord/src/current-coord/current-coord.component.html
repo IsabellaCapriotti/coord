@@ -21,7 +21,7 @@ style="overflow: hidden">
                 [productRef]="prod"
                 [editorMaxX]="editorWidth"
                 [editorMaxY]="editorHeight"
-
+                [loaded]="isExistingCoord"
                 [ngStyle]="
                 {
                     'opacity': prod.isHidden ? '0%' : '100%'
@@ -34,7 +34,7 @@ style="overflow: hidden">
 </div>
 
 <!-- Popup to select width -->
-<div class="screen-cover col-container" *ngIf="!initialized">
+<div class="screen-cover col-container" *ngIf="!initialized && !isExistingCoord">
 
     <div id="width-select" class="col-container" >
         <div class="purple-splash"></div>

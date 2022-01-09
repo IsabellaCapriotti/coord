@@ -13,6 +13,7 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
     @Input() productRef !: Product; 
     @Input() imageSrc: string = ""; 
     @Input() productID!: number; 
+    @Input() loaded : boolean = false; 
 
     @ViewChild('imgContainer') imgContainer !: ElementRef; 
 
@@ -56,24 +57,40 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
     ngOnInit(){
 
         // Initialize properties to that of product reference
-        console.log('in here');
-        console.log(this.productRef); 
         this.imageSrc = this.productRef.imageSrc; 
         this.productID = this.productRef.productID; 
 
     }
 
     ngAfterViewInit(): void {
-        // Get initial height and width of image
-        this.currHeight = this.imgContainer.nativeElement.offsetHeight; 
-        this.currWidth = this.imgContainer.nativeElement.offsetWidth;
 
-        // Scale image if it's too large for the editor
-        if(this.currWidth > this.editorMaxX){
-            this.currWidth = this.editorMaxX - 50; 
+        console.log('in afterviewinit'); 
+        console.log(this.productRef); 
+
+        // Get initial height and width of image
+
+        // On initial image addition
+        if(!this.loaded){
+            this.currHeight = this.imgContainer.nativeElement.offsetHeight; 
+            this.currWidth = this.imgContainer.nativeElement.offsetWidth;
+
+            // Scale image if it's too large for the editor
+            if(this.currWidth > this.editorMaxX){
+                this.currWidth = this.editorMaxX - 50; 
+            }
+            if(this.currHeight > this.editorMaxY){
+                this.currHeight = this.editorMaxY - 50; 
+            }
         }
-        if(this.currHeight > this.editorMaxY){
-            this.currHeight = this.editorMaxY - 50; 
+        // When image has been loaded from existing coord
+        else{
+            this.currHeight = this.productRef['currHeight']; 
+            this.currWidth = this.productRef['currWidth'];
+            this.currLeftOffset = this.productRef['currLeftOffset']; 
+            this.currTopOffset = this.productRef['currTopOffset']; 
+            this.currZIdx = this.productRef['currZIdx']; 
+            console.log(this.currLeftOffset); 
+            console.log(this.currTopOffset); 
         }
 
         // Initialize product positional properties
@@ -124,6 +141,7 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
             this.currTopOffset = this.moveStartTopOffset + yDiff; 
 
             // Don't allow image out of bounds
+
             if(this.currLeftOffset < 0){
                 this.currLeftOffset = 0; 
             }

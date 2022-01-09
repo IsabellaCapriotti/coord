@@ -76,9 +76,6 @@ export class SaveCoordService{
         this.productsInCoord.set(newProd['productID'], newProd); 
 
         this.productsInCoordSubj.next(this.productsList); 
-        console.log('updated'); 
-        console.log(this.productsInCoord);
-        console.log(this.productsList);  
     }
 
 
@@ -128,5 +125,33 @@ export class SaveCoordService{
         }
 
         return ret_coords; 
+    }
+
+    async get_coord(coordID : string){
+
+        let server_coord : any = await lastValueFrom(this.http.get(environment.apiUrl + '/getcoord?coordID=' + coordID)); 
+        
+        server_coord = server_coord['foundCoord']
+
+        console.log(server_coord); 
+
+        let converted_products : Product[] = []
+
+        for(let i=0; i < server_coord['products'].length; i++){
+            let curr = server_coord['products'][i]; 
+            console.log(curr); 
+            let new_prod = new Product(curr['imageSrc']);
+            new_prod.convertFromObj(curr); 
+            converted_products.push(new_prod); 
+
+        }
+        
+        return new Coord(
+            converted_products,
+            server_coord['width'],
+            server_coord['height'],
+            server_coord['userID'],
+            server_coord['coordID']
+        )
     }
 }

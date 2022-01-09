@@ -31,6 +31,21 @@ export class Product{
         this.currZIdx = newZ; 
     }
 
+    // Fills in the fields of the Product based on the passed object. For use in converting responses from the server into 
+    // proper Product-type objects
+    convertFromObj(obj : any){
+
+        this.imageSrc = obj['imageSrc']
+        this.productName = obj['productName']
+        this.isHidden = obj['isHidden']
+        this.productID = obj['productID']
+        this.currHeight = obj['currHeight']
+        this.currWidth = obj['currWidth']
+        this.currLeftOffset = obj['currLeftOffset']
+        this.currTopOffset = obj['currTopOffset']
+        this.currZIdx = obj['currZIdx']
+    }
+
 }
 
 export class Coord{
