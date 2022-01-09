@@ -110,7 +110,23 @@ export class SaveCoordService{
         let userID = this.authService.get_coord_user_cookie(); 
 
         // Retrieve saved coords for this user from backend
-        return await lastValueFrom( this.http.get(environment.apiUrl + '/getsavedcoords?userID=' + userID));
-        
+        let server_coords : any = await lastValueFrom( this.http.get(environment.apiUrl + '/getsavedcoords?userID=' + userID));
+        server_coords = server_coords['foundCoords']
+
+        // Convert into Coord objects
+        let ret_coords = []
+        for(let i=0; i < server_coords.length; i++){
+            let curr_entry = server_coords[i]; 
+
+            ret_coords.push(new Coord(
+                curr_entry['products'],
+                curr_entry['width'],
+                curr_entry['height'],
+                curr_entry['userID'],
+                curr_entry['coordID']
+            )); 
+        }
+
+        return ret_coords; 
     }
 }

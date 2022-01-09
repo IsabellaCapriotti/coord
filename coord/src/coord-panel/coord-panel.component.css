@@ -1,0 +1,14 @@
+.coord-panel-container{
+    width: 150px; 
+    height: 150px; 
+    border: 5px solid var(--purple-dark); 
+}
+
+.coord-panel-container:hover{
+    cursor: pointer; 
+}
+
+.coord-panel-container img{
+    width: 100%; 
+    height: 100%; 
+}

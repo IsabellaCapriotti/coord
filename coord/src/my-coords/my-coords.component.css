@@ -13,3 +13,13 @@ nav{
     font-weight: 600; 
     font-size: 2.5rem;
 }
+
+#coords-container{
+    width: 100%; 
+    flex-wrap: wrap; 
+    padding: 40px; 
+}
+
+#coords-container coord-panel{
+    margin-right: 20px; 
+}

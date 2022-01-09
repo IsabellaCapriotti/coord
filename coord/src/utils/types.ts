@@ -42,11 +42,12 @@ export class Coord{
     width : number = 0; 
     height : number = 0; 
 
-    constructor(newProds : Product[], dimX : number, dimY : number, userID : string){
+    constructor(newProds : Product[], dimX : number, dimY : number, userID : string, coordID : string = ""){
         this.products = newProds; 
         this.width = dimX; 
         this.height = dimY; 
         this.userID = userID; 
+        this.coordID = coordID; 
     }
     
 }

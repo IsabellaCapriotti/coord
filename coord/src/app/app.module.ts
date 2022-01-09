@@ -15,6 +15,7 @@ import { ProductImgCardComponent } from 'src/product-img-card/product-img-card.c
 import { ProductPanelComponent } from 'src/product-panel/product-panel.component';
 import { EditorImgComponent } from 'src/editor-img/editor-img.component';
 import { SignInComponent } from 'src/sign-in/sign-in.component';
+import { CoordPanelComponent } from 'src/coord-panel/coord-panel.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -43,7 +44,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ProductPanelComponent,
     EditorImgComponent,
     SignInComponent,
-    MyCoordsComponent
+    MyCoordsComponent,
+    CoordPanelComponent
+    
   ],
   imports: [
     BrowserModule,

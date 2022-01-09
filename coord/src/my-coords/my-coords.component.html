@@ -1,3 +1,8 @@
 <nav class="row-container">
     <h1 id="site-title">Coord</h1>
 </nav>
+
+<div class="row-container" id="coords-container">
+
+    <coord-panel *ngFor="let coord of savedCoords" [coordID]="coord.coordID" [previewImgSrc]="getPreviewImgSrc(coord)"></coord-panel>
+</div>
