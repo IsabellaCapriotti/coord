@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { SaveCoordService } from "src/service/save_coords.service";
 import { Coord } from "src/utils/types";
 
@@ -12,7 +13,7 @@ export class MyCoordsComponent implements OnInit{
     // List of saved coords to show
     savedCoords : Coord[] = []; 
 
-    constructor( private saveCoordService : SaveCoordService ){
+    constructor( private saveCoordService : SaveCoordService, private router : Router ){
 
     }
 
@@ -35,5 +36,10 @@ export class MyCoordsComponent implements OnInit{
         else{
             return ""; 
         }
+    }
+
+    // Navigates to a new editor when the new Coord button is clicked
+    openNewEditor(){
+        this.router.navigate(['/coord-editor']); 
     }
 }

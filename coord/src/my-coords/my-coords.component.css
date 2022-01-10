@@ -22,4 +22,9 @@ nav{
 
 #coords-container coord-panel{
     margin-right: 20px; 
+    margin-bottom: 20px; 
+}
+
+#createCoordBtn{
+    margin-left: 5px; 
 }

@@ -12,6 +12,20 @@ nav{
     font-family: 'Comfortaa', sans-serif; 
     font-weight: 600; 
     font-size: 2.5rem;
+    font-style: none; 
+    text-decoration: none;
+}
+
+#site-title:visited{
+    color: white; 
+    font-style: none; 
+    text-decoration: none;
+}
+
+#site-title:active{
+    color: white; 
+    font-style: none; 
+    text-decoration: none;
 }
 
 .screen-cover{

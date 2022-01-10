@@ -10,6 +10,7 @@ export class CoordPanelComponent{
 
     @Input() coordID : string = "";  
     @Input() previewImgSrc : string = ""; 
+    @Input() hasPreview : boolean = true; 
 
     constructor( private router : Router ){}
 
