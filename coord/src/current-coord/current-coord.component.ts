@@ -27,12 +27,14 @@ export class CurrentCoordComponent{
         // Check if the route contains query parameter for an existing Coord or not
         this.route.queryParams.subscribe( (qp : any) => {
 
-            if(qp.coordID != ""){
+
+            if('coordID' in qp && qp.coordID != ""){
                 this.isExistingCoord = true; 
                 this.initialized = true; 
                 this.coordID = qp.coordID; 
 
                 this.loadCoord(); 
+                this.saveCoordService.setCoordID(this.coordID); 
             } 
         }); 
 
@@ -63,11 +65,13 @@ export class CurrentCoordComponent{
             // Update state to match fetched Coord
             this.editorWidth = res['width']
             this.editorHeight = res['height']
+
             let prods = res['products']; 
             this.activeProducts = prods; 
-            // for(let i=0; i < prods.length; i++){
-            //     this.saveCoordService.addProduct(prods[i]);
-            // }
+            
+            this.pxOffset = 10;
+            this.saveCoordService.assignDimensions(this.editorWidth, this.editorHeight);
+            
         }); 
     }
 }

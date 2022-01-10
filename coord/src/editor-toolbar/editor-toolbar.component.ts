@@ -25,7 +25,6 @@ export class EditorToolbarComponent{
         this.saving = true; 
         this.spinner.show("saving-spinner"); 
         this.saveCoordService.saveCoord().then( (res:any) => {
-            console.log(res); 
             this.spinner.hide("saving-spinner"); 
             this.saving = false; 
         }); 

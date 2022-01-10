@@ -15,11 +15,16 @@ export class Product{
     currLeftOffset : number = 0; 
     currTopOffset : number = 0; 
     currZIdx : number = 0; 
+
+    // Indicates whether this product was newly added from the menu or loaded 
+    // from an existing Coord
+    fromExistingCoord : boolean = false; 
     
-    constructor (newSrc : string, newName : string=""){
+    constructor (newSrc : string, newName : string="", fromExistingCoord : boolean = false ){
         this.imageSrc = newSrc; 
         this.productID = Product.latestID; 
-        Product.latestID += 3;  
+        this.fromExistingCoord = fromExistingCoord; 
+        Product.latestID += 1;  
     }   
 
     // Function to assign new position

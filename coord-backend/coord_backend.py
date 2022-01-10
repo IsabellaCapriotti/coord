@@ -82,15 +82,40 @@ def get_imgs():
 ##################################################################
 # SAVING / LOADING COORDS
 ##################################################################
-# Saves a new coord in the database according to the JSON in the request 
+# Saves a new coord or updates an existing Coord in the database.
+# Request body (JSON): 
+#   coordData: Object containing data for the Coord to save. 
+#   coordID: ID of the Coord to update. Will be blank if this is the first time a new Coord is being saved. 
+# Returns the ID of the created or updated Coord. 
 @app.route("/savecoord", methods=['POST'])
 def save_coord():
     
+    new_id = ""
+
     try:
         client = connectToMongo()
         saved_coords = client['Coord']['SavedCoords']
-        saved_coords.insert_one(request.json)
-        return "Created Coord"
+
+        # Updating existing Coord
+        coordID = request.json['coordID']
+        print('looking for ' + str(coordID))
+        if coordID != "":
+
+            found = saved_coords.find_one({'_id': bson.objectid.ObjectId(coordID)})
+            if found is not None:
+                found = saved_coords.replace_one({'_id': bson.objectid.ObjectId(coordID)}, request.json['coordData'])
+                new_id = coordID
+
+            else:
+                found = saved_coords.insert_one(request.json['coordData'])
+                new_id = found.inserted_id
+
+        else:
+            found = saved_coords.insert_one(request.json['coordData'])
+            new_id = found.inserted_id
+            
+
+        return str(new_id)
     except Exception as e:
         return str(e)
 
@@ -143,8 +168,6 @@ def get_coord():
             'width': coord['width'],
             'height': coord['height']
     }}
-
-    print(res); 
    
     return res
 

@@ -21,7 +21,7 @@ style="overflow: hidden">
                 [productRef]="prod"
                 [editorMaxX]="editorWidth"
                 [editorMaxY]="editorHeight"
-                [loaded]="isExistingCoord"
+                [loaded]="prod['fromExistingCoord']"
                 [ngStyle]="
                 {
                     'opacity': prod.isHidden ? '0%' : '100%'

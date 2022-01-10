@@ -23,27 +23,44 @@ export class SaveCoordService{
     coordWidth : number = 0; 
     coordHeight : number = 0; 
 
+    // Current coord ID
+    coordID : string = ""; 
+    coordIDSubj : Subject<string> = new Subject<string>(); 
+
     constructor( private http : HttpClient, private authService : AuthService ){}
 
 
     // *********************************************************
     // SAVING / CREATING NEW COORDS
     // *********************************************************
+
+    // Saves a new Coord to the database
     async saveCoord(){
 
         // Create Coord JSON to send to database
         let userID = this.authService.get_coord_user_cookie(); 
 
-        let newCoord = new Coord(this.productsList, this.coordWidth, this.coordHeight, userID); 
+        let data = {
+            'coordData': {
+                'userID': userID,
+                'products': this.productsList,
+                'width': this.coordWidth,
+                'height': this.coordHeight
+            },
+            'coordID': this.coordID
+        }
 
-        return await lastValueFrom(this.http.post(environment.apiUrl + '/savecoord', JSON.stringify(newCoord),
+        this.coordID = await lastValueFrom(this.http.post(environment.apiUrl + '/savecoord', JSON.stringify(data),
         {
             'headers':
             {'Content-Type': 'application/json'},
             'responseType': 'text'
         }));
+
+        return this.coordID; 
                
     }  
+
 
     
     // *********************************************************
@@ -97,6 +114,12 @@ export class SaveCoordService{
         this.coordInitializedSubj.next(this.coordInitialized); 
 
     }
+
+    // Assigns the current Coord ID to the passed ID
+    setCoordID(coordID : string){
+        this.coordID = coordID; 
+        this.coordIDSubj.next(coordID); 
+    }
     
     // *********************************************************
     // LOADING SAVED COORDS
@@ -131,16 +154,16 @@ export class SaveCoordService{
 
         let server_coord : any = await lastValueFrom(this.http.get(environment.apiUrl + '/getcoord?coordID=' + coordID)); 
         
-        server_coord = server_coord['foundCoord']
+        // Convert Object response to Coord and Product types 
 
-        console.log(server_coord); 
+        server_coord = server_coord['foundCoord']
 
         let converted_products : Product[] = []
 
         for(let i=0; i < server_coord['products'].length; i++){
             let curr = server_coord['products'][i]; 
             console.log(curr); 
-            let new_prod = new Product(curr['imageSrc']);
+            let new_prod = new Product(curr['imageSrc'], curr['productName'], true);
             new_prod.convertFromObj(curr); 
             converted_products.push(new_prod); 
 

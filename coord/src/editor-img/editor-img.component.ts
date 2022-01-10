@@ -64,9 +64,6 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
 
     ngAfterViewInit(): void {
 
-        console.log('in afterviewinit'); 
-        console.log(this.productRef); 
-
         // Get initial height and width of image
 
         // On initial image addition
@@ -89,8 +86,6 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
             this.currLeftOffset = this.productRef['currLeftOffset']; 
             this.currTopOffset = this.productRef['currTopOffset']; 
             this.currZIdx = this.productRef['currZIdx']; 
-            console.log(this.currLeftOffset); 
-            console.log(this.currTopOffset); 
         }
 
         // Initialize product positional properties
