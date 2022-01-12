@@ -43,3 +43,8 @@ nav{
     font-weight: 500; 
     
 }
+
+.buttonsRow{
+    min-width: 10%; 
+    justify-content: space-evenly;
+}

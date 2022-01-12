@@ -45,6 +45,19 @@ export class AuthService {
         return res; 
     }
 
+    // Attempts to log out the current user. After receiving a success message from the backend, it will set the authentication state
+    // to false, and redirect back to the login page. 
+    async logout(){
+
+        let res:any = await lastValueFrom(this.http.post(environment.apiUrl + '/logout', {'userID': this.authUserID}, {responseType: 'text'})); 
+
+        if(res == "success"){
+            this.isAuthenticated = false; 
+            this.router.navigate(['/login'])
+        }
+    }
+
+
     // Creates a new user with the passed information. Sets the class variable for user ID to the ID of the resulting new user, 
     // and updates the authentication state to true. Returns the response object from the server. 
     async create_user(un : string, pw : string, email : string){

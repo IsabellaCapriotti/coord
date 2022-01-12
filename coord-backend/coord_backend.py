@@ -221,6 +221,21 @@ def login():
     except Exception as e:
         return str(e)
 
+
+# Searches in the session table for a user matching the user ID in the post body. Deletes
+# their entry in the session table, logging them out. 
+@app.route('/logout', methods=['POST'])
+def logout():
+
+    userID = request.json['userID']
+
+    client = connectToMongo()
+    session_table = client['Coord']['Session']
+
+    session_table.delete_one({'user_id': bson.objectid.ObjectId(userID)})
+
+    return "success"
+
 # Creates a new user in the database with the given information. Returns JSON with a field for
 # the result of the operation and a field for the newly created user ID if successful
 @app.route('/create_user', methods=['POST'])
