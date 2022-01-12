@@ -151,7 +151,8 @@ def get_saved_coords():
 
     return res
 
-# Returns JSON for the coord saved in the database matching the ID specified in the request parameter. 
+# Returns JSON for the coord saved in the database matching the ID specified in the request parameter. If no existing 
+# coord matches the ID, it will return None instead. 
 @app.route("/getcoord", methods=['GET'])
 def get_coord(): 
 
@@ -159,15 +160,27 @@ def get_coord():
 
     client = connectToMongo()
 
-    coord = client['Coord']['SavedCoords'].find_one({'_id': bson.objectid.ObjectId(coordID)})
+    try:
+        coord = client['Coord']['SavedCoords'].find_one({'_id': bson.objectid.ObjectId(coordID)})
+    except: 
+        res = {
+            'foundCoord': None
+        }
+        return res
 
-    res = {'foundCoord': {
-            'userID': coord['userID'],
-            'coordID': str(coord['_id']),
-            'products': coord['products'],
-            'width': coord['width'],
-            'height': coord['height']
-    }}
+    if coord is None:
+        res = {
+            'foundCoord': None
+        }
+    
+    else:
+        res = {'foundCoord': {
+                'userID': coord['userID'],
+                'coordID': str(coord['_id']),
+                'products': coord['products'],
+                'width': coord['width'],
+                'height': coord['height']
+        }}
    
     return res
 

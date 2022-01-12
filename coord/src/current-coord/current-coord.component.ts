@@ -60,7 +60,7 @@ export class CurrentCoordComponent{
     // Fetches and loads information on an existing Coord into the active editor.
     loadCoord(){
 
-        this.saveCoordService.get_coord(this.coordID).then( (res:Coord) => {
+        this.saveCoordService.get_coord(this.coordID).then( (res:any) => {
             console.log(res); 
             // Update state to match fetched Coord
             this.editorWidth = res['width']

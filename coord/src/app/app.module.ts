@@ -27,6 +27,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { MyCoordsComponent } from 'src/my-coords/my-coords.component';
 import { LoginGuard } from 'src/utils/loginGuard';
 import { LoggedInGuard } from 'src/utils/loggedInGuard';
+import { ExtViewCoordComponent } from 'src/ext-view-coord/ext-view-coord.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: false
@@ -45,7 +46,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditorImgComponent,
     SignInComponent,
     MyCoordsComponent,
-    CoordPanelComponent
+    CoordPanelComponent,
+    ExtViewCoordComponent
     
   ],
   imports: [

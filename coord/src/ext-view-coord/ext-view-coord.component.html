@@ -1,0 +1,45 @@
+<nav class="row-container">
+    <a id="site-title" href="/my-coords">Coord</a>
+
+    <div class="row-container buttonsRow">
+        <button class="noBorderBtn" (click)="onLogoutBtnClick()">
+            <mat-icon style="color: white;">logout</mat-icon>
+        </button>
+    </div>
+</nav>
+
+<div class="view-outer">
+    <div [ngStyle]="
+    {
+        'width': editorWidth + 'px',
+        'height': editorHeight + 'px'
+    }" 
+    style="overflow: hidden">
+        <perfect-scrollbar>
+            <div id="editor-container" class="col-container" 
+            [ngStyle]="
+            {
+                'width': editorWidth + 'px',
+                'height': editorHeight + 'px'
+            }"
+            >   
+                <!--<div class="purple-splash"></div>-->
+
+                <div *ngFor="let prod of activeProducts">
+                    <editor-img 
+                    [canEdit]="false"
+                    [productRef]="prod"
+                    [editorMaxX]="editorWidth"
+                    [editorMaxY]="editorHeight"
+                    [loaded]="prod['fromExistingCoord']"
+                    [ngStyle]="
+                    {
+                        'opacity': prod.isHidden ? '0%' : '100%'
+                    }"
+                    ></editor-img>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+    </div>
+</div>

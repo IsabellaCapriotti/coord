@@ -16,16 +16,16 @@
     >
 
     <!-- Resizers -->
-    <div class="resizer resizer-tl" (mousedown)="onResizerMousedown($event)"></div>
-    <div class="resizer resizer-tr" (mousedown)="onResizerMousedown($event)"></div>
-    <div class="resizer resizer-bl" (mousedown)="onResizerMousedown($event)"></div>
-    <div class="resizer resizer-br" (mousedown)="onResizerMousedown($event)"></div>
+    <div *ngIf="canEdit" class="resizer resizer-tl" (mousedown)="onResizerMousedown($event)"></div>
+    <div *ngIf="canEdit" class="resizer resizer-tr" (mousedown)="onResizerMousedown($event)"></div>
+    <div *ngIf="canEdit" class="resizer resizer-bl" (mousedown)="onResizerMousedown($event)"></div>
+    <div *ngIf="canEdit" class="resizer resizer-br" (mousedown)="onResizerMousedown($event)"></div>
 
     <!-- Mover -->
-    <div class="mover" (mousedown)="onMoverMousedown($event)" ></div>
+    <div *ngIf="canEdit" class="mover" (mousedown)="onMoverMousedown($event)" ></div>
 
     <!-- Menu for image options -->
-    <div class="image-options col-container" *ngIf="isOptionsMenuOpen">
+    <div class="image-options col-container" *ngIf="canEdit && isOptionsMenuOpen">
         <ul class="options-list">
             <li class="image-option" (click)="onMoveForwardClicked()">Move forward</li>
             <li class="image-option" (click)="onMoveBackwardClicked()">Move backward</li>

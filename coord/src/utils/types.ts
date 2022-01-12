@@ -19,6 +19,9 @@ export class Product{
     // Indicates whether this product was newly added from the menu or loaded 
     // from an existing Coord
     fromExistingCoord : boolean = false; 
+
+    // Indicates whether this Coord should be viewable via external link
+    isPublic : boolean = false; 
     
     constructor (newSrc : string, newName : string="", fromExistingCoord : boolean = false ){
         this.imageSrc = newSrc; 

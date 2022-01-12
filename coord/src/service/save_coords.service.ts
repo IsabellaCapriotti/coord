@@ -153,11 +153,14 @@ export class SaveCoordService{
     async get_coord(coordID : string){
 
         let server_coord : any = await lastValueFrom(this.http.get(environment.apiUrl + '/getcoord?coordID=' + coordID)); 
-        
-        // Convert Object response to Coord and Product types 
 
         server_coord = server_coord['foundCoord']
+        // Handle nonexistant coord
+        if(server_coord == null){
+            return null; 
+        }
 
+        // Convert Object response to Coord and Product types 
         let converted_products : Product[] = []
 
         for(let i=0; i < server_coord['products'].length; i++){

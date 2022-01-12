@@ -9,13 +9,16 @@ import { SaveCoordService } from 'src/service/save_coords.service';
 })
 export class EditorImgComponent implements AfterViewInit, OnInit{
 
-
+    // Reference/information about product this image represents
     @Input() productRef !: Product; 
     @Input() imageSrc: string = ""; 
     @Input() productID!: number; 
     @Input() loaded : boolean = false; 
 
     @ViewChild('imgContainer') imgContainer !: ElementRef; 
+
+    // Controls whether image is editable or not
+    @Input() canEdit : boolean = true; 
 
     // Resizing 
     @HostBinding('style.height.px')
@@ -194,9 +197,12 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
 
     // Open options menu on right click
     handleRightClick(event:any){
-        event.preventDefault(); 
-        event.stopPropagation(); 
-        this.isOptionsMenuOpen = true; 
+
+        if(this.canEdit){
+            event.preventDefault(); 
+            event.stopPropagation(); 
+            this.isOptionsMenuOpen = true; 
+        }
     }
 
     onMoveForwardClicked(){
