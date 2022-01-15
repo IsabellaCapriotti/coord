@@ -27,6 +27,10 @@ export class SaveCoordService{
     coordID : string = ""; 
     coordIDSubj : Subject<string> = new Subject<string>(); 
 
+    // Link sharing
+    linkSharingState : boolean = false; 
+    linkSharingStateSubj : Subject<boolean> = new Subject<boolean>(); 
+
     constructor( private http : HttpClient, private authService : AuthService ){}
 
 
@@ -45,7 +49,8 @@ export class SaveCoordService{
                 'userID': userID,
                 'products': this.productsList,
                 'width': this.coordWidth,
-                'height': this.coordHeight
+                'height': this.coordHeight,
+                'isPublic': this.linkSharingState
             },
             'coordID': this.coordID
         }
@@ -101,8 +106,6 @@ export class SaveCoordService{
         this.productsInCoord.delete(toRemove['productID']); 
         this.productsList = this.productsList.filter( (prod:Product) => prod.productID != toRemove.productID); 
         this.productsInCoordSubj.next(this.productsList); 
-        console.log('deleted'); 
-        console.log(this.productsInCoord); 
     }
 
     // Assigns a width and height to the coord, sends message that coord has been initialized
@@ -120,6 +123,15 @@ export class SaveCoordService{
         this.coordID = coordID; 
         this.coordIDSubj.next(coordID); 
     }
+
+    // Updates the current link sharing state
+    setLinkSharingState(newState : boolean){
+        this.linkSharingState = newState; 
+        this.linkSharingStateSubj.next(newState); 
+    }
+
+
+    
     
     // *********************************************************
     // LOADING SAVED COORDS
@@ -143,7 +155,8 @@ export class SaveCoordService{
                 curr_entry['width'],
                 curr_entry['height'],
                 curr_entry['userID'],
-                curr_entry['coordID']
+                curr_entry['coordID'],
+                curr_entry['isPublic']
             )); 
         }
 
@@ -165,19 +178,20 @@ export class SaveCoordService{
 
         for(let i=0; i < server_coord['products'].length; i++){
             let curr = server_coord['products'][i]; 
-            console.log(curr); 
             let new_prod = new Product(curr['imageSrc'], curr['productName'], true);
             new_prod.convertFromObj(curr); 
             converted_products.push(new_prod); 
 
         }
         
+
         return new Coord(
             converted_products,
             server_coord['width'],
             server_coord['height'],
             server_coord['userID'],
-            server_coord['coordID']
+            server_coord['coordID'],
+            server_coord['isPublic']
         )
     }
 }

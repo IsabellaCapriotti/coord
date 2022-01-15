@@ -10,8 +10,17 @@ import { AuthService } from 'src/service/auth.service';
 })
 export class EditorToolbarComponent{
 
+    // Save state
     isSaveEnabled : boolean = false; 
     saving : boolean = false; 
+
+    // Link sharing
+    linkSharePopup : boolean = false; 
+    linkSharingState : boolean = false; 
+    linkShareStateChanged : boolean = false; 
+
+    // Coord state
+    coordID : string = ""; 
 
     constructor (private saveCoordService : SaveCoordService, private spinner : NgxSpinnerService,
         private authService : AuthService ){
@@ -19,6 +28,16 @@ export class EditorToolbarComponent{
         // Wait for coord to be initialized to activate save button
         this.saveCoordService.coordInitializedSubj.subscribe( (newState : boolean) => {
             this.isSaveEnabled = newState; 
+        }); 
+
+        // Subscribe to changes in link sharing state
+        this.saveCoordService.linkSharingStateSubj.subscribe( (newState : boolean) => {
+            this.linkSharingState = newState; 
+        }); 
+
+        // Subscribe to changes in Coord ID
+        this.saveCoordService.coordIDSubj.subscribe( (newID : string) =>{
+            this.coordID = newID; 
         }); 
     }
 
@@ -34,5 +53,30 @@ export class EditorToolbarComponent{
 
     onLogoutBtnClick(){
         this.authService.logout(); 
+    }
+
+    /* Link sharing Coord */ 
+    onToggleChange(e : any){
+        
+        this.linkShareStateChanged = true; 
+
+        if(e.checked){
+            this.linkSharingState = true; 
+        }
+        else{
+            this.linkSharingState = false; 
+        }
+        this.saveCoordService.setLinkSharingState(this.linkSharingState);  
+    }
+
+    enableLinkPopup(){
+        this.linkSharePopup = true;
+    }
+    disableLinkPopup(){
+        this.linkSharePopup = false; 
+    }
+
+    createCoordLink(){
+        return window.origin + '/view-coord/' + this.coordID; 
     }
 }

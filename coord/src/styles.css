@@ -59,3 +59,16 @@ body, html{
     --brown-light: #A1886C; 
     --purple-dark: #543449; 
 }
+
+/* Angular Material overrides */ 
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
+    background-color: var(--orange-med);
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+    background-color: var(--orange-light);
+}
+
+.mat-slide-toggle.mat-checked .mat-ripple-element{
+    background-color: var(--purple-dark);
+}

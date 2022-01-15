@@ -19,6 +19,8 @@ import { CoordPanelComponent } from 'src/coord-panel/coord-panel.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import { SafePipeModule } from 'safe-pipe';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -59,6 +61,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatCardModule,
     SafePipeModule,
     MatIconModule,
+    MatSlideToggleModule,
     PerfectScrollbarModule,
     NgxSpinnerModule
   ],

@@ -72,6 +72,7 @@ export class CurrentCoordComponent{
             this.pxOffset = 10;
             this.saveCoordService.assignDimensions(this.editorWidth, this.editorHeight);
             
+            this.saveCoordService.setLinkSharingState(res['isPublic']); 
         }); 
     }
 }

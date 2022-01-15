@@ -5,15 +5,45 @@
         <button *ngIf="isSaveEnabled" id="saveBtn" class="noBorderBtn" (click)="onSaveCoordBtnClick()">
             <mat-icon style="color: white;">save</mat-icon>
         </button>
+        <button class="noBorderBtn" (click)="enableLinkPopup()">
+            <mat-icon style="color: white;">link</mat-icon>
+        </button>
         <button class="noBorderBtn" (click)="onLogoutBtnClick()">
             <mat-icon style="color: white;">logout</mat-icon>
         </button>
+        
     </div>
 </nav>
 
+<!-- Loading popup while Coord is being saved -->
 <div class="screen-cover" *ngIf="saving">
     <div id="saving-coord-popup">
         <h1>Now Saving...</h1>
         <ngx-spinner name="saving-spinner" type="ball-circus"></ngx-spinner>
+    </div>
+</div>
+
+<!-- Infobox on link sharing -->
+<div class="screen-cover" *ngIf="linkSharePopup">
+    <div id="link-popup" class="col-container">
+        <div class="purple-splash"></div>
+
+        <div class="col-container" style="padding: 10px; width: 100%;">
+            
+            <div class="row-container link-share-select">
+                <h4>Link Sharing: </h4>
+                <mat-slide-toggle (change)="onToggleChange($event)" [checked]="linkSharingState"></mat-slide-toggle>
+            </div>
+            <div class="row-container link-share-select" *ngIf="linkSharingState">
+                <h4>Link: </h4>
+                <p>{{createCoordLink()}}</p>
+            </div>
+
+            <p *ngIf="linkShareStateChanged">Remember to <strong>save</strong> your Coord so your new
+            preferences will go into effect!</p>
+            <button id="linkShareCloseBtn" (click)="disableLinkPopup()">OK</button>
+
+        </div>
+
     </div>
 </div>

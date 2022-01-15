@@ -98,7 +98,7 @@ def save_coord():
 
         # Updating existing Coord
         coordID = request.json['coordID']
-        print('looking for ' + str(coordID))
+        
         if coordID != "":
 
             found = saved_coords.find_one({'_id': bson.objectid.ObjectId(coordID)})
@@ -144,7 +144,8 @@ def get_saved_coords():
             'coordID': str(coord['_id']),
             'products': coord['products'],
             'width': coord['width'],
-            'height': coord['height']
+            'height': coord['height'],
+            'isPublic': coord['isPublic']
 
         }
         res['foundCoords'].append(new_item)
@@ -179,7 +180,8 @@ def get_coord():
                 'coordID': str(coord['_id']),
                 'products': coord['products'],
                 'width': coord['width'],
-                'height': coord['height']
+                'height': coord['height'],
+                'isPublic': coord['isPublic']
         }}
    
     return res

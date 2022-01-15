@@ -20,10 +20,8 @@ export class Product{
     // from an existing Coord
     fromExistingCoord : boolean = false; 
 
-    // Indicates whether this Coord should be viewable via external link
-    isPublic : boolean = false; 
-    
-    constructor (newSrc : string, newName : string="", fromExistingCoord : boolean = false ){
+
+    constructor (newSrc : string, newName : string="", fromExistingCoord : boolean = false){
         this.imageSrc = newSrc; 
         this.productID = Product.latestID; 
         this.fromExistingCoord = fromExistingCoord; 
@@ -65,12 +63,17 @@ export class Coord{
     width : number = 0; 
     height : number = 0; 
 
-    constructor(newProds : Product[], dimX : number, dimY : number, userID : string, coordID : string = ""){
+    // Indicates whether this Coord should be viewable via external link
+    isPublic : boolean = false; 
+
+
+    constructor(newProds : Product[], dimX : number, dimY : number, userID : string, coordID : string = "", isPublic : boolean = false){
         this.products = newProds; 
         this.width = dimX; 
         this.height = dimY; 
         this.userID = userID; 
         this.coordID = coordID; 
+        this.isPublic = isPublic; 
     }
     
 }
