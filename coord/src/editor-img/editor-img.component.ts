@@ -49,6 +49,8 @@ export class EditorImgComponent implements AfterViewInit, OnInit{
 
     // Image options
     isOptionsMenuOpen : boolean = false; 
+
+    @HostBinding('style.z-index')
     currZIdx : number = 0; 
 
     // Editor information 
