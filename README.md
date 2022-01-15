@@ -6,8 +6,5 @@ Coord is an in-progress web application that gives users the power to combine di
 ## Current Features
 * Drag-and-drop editor for easily creating designs
 * Accounts to keep track of your creations
-
-## Upcoming
-* Link sharing capability
-* Price calculator
-* More account features
+* Generate a link to share your Coord
+* Calculate the cost of all your items together
