@@ -3,6 +3,7 @@ export class Product{
     // Image/product properties
     imageSrc : string = "";
     productName : string = ""; 
+    productPrice : number = -1; 
     isHidden : boolean = false; 
 
     // ID
@@ -50,6 +51,7 @@ export class Product{
         this.currLeftOffset = obj['currLeftOffset']
         this.currTopOffset = obj['currTopOffset']
         this.currZIdx = obj['currZIdx']
+        this.productPrice = obj['productPrice']; 
     }
 
 }

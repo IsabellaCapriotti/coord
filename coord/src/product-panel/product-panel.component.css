@@ -36,3 +36,13 @@ product-img-card{
     justify-content: space-evenly;
     align-items: center; 
 }
+
+/* Price */ 
+.product-price{
+    color: black; 
+    transition: color .5s linear; 
+}
+
+.product-price-invalid{
+    color: red; 
+}

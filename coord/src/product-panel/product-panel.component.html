@@ -28,9 +28,24 @@
             </button>
         </div>
 
-        <!-- Price entry 
-        <input type="number" class="productPriceEntry">
-        -->
+        <!-- Price entry -->
+        <div class="row-container" style="justify-content: space-between;">
+            <input *ngIf="productPrice == -1 || editingPrice" class="product-name-entry product-price" [(ngModel)]="newProductPrice" placeholder='Enter price'
+            [ngStyle]="{
+                'color': priceError ? 'red' : 'black'
+            }">
+            <button *ngIf="productPrice == -1 || editingPrice" class="noBorderBtn confirmNameBtn"
+            (click)="onConfirmProductPrice()">
+                <mat-icon>done</mat-icon>
+            </button>
+
+            <p *ngIf="productPrice != -1 && !editingPrice" class="product-name-display">{{productPrice}}</p>
+            <button *ngIf="productPrice != -1 && !editingPrice" class="noBorderBtn editNameBtn"
+            (click)="onEditProductPrice()">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+        
         
         <!-- Toolbar for show/hide, deletion -->
         <div class="row-container moreProductOptions">

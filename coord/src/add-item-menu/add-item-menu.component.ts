@@ -25,11 +25,21 @@ export class AddItemMenuComponent{
     // Managing currently active products
     activeProducts : Product[] = []; 
 
+    totalPrice : number = 0; 
+
     constructor(private imageFetchService : ImageFetchService, private saveCoordService : SaveCoordService, private spinner : NgxSpinnerService ){
 
         // Subscribe to changes in products
         this.saveCoordService.productsInCoordSubj.subscribe( (newProds: Product[]) => {
             this.activeProducts = newProds; 
+
+            // Calculate total price
+            this.totalPrice = 0; 
+            this.activeProducts.map( (prod:Product) => {
+                if(prod.productPrice != -1){
+                    this.totalPrice += prod.productPrice; 
+                }
+            })
         }); 
     }
 
