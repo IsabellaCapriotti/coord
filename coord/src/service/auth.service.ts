@@ -35,7 +35,6 @@ export class AuthService {
             this.isAuthenticated = true; 
             this.authUserID = res['userID']
             document.cookie = "coord_user=" + this.authUserID; 
-            console.log("logged in user with ID " + this.authUserID); 
         }
         else{
             this.isAuthenticated = false; 
@@ -68,7 +67,6 @@ export class AuthService {
             this.isAuthenticated = true; 
             this.authUserID = res['userID'];  
             document.cookie = "coord_user=" + this.authUserID; 
-            console.log("created new user with ID " + this.authUserID); 
         }
         else{
             this.isAuthenticated = false; 

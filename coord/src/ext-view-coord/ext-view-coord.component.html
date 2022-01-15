@@ -1,14 +1,11 @@
 <nav class="row-container">
     <a id="site-title" href="/my-coords">Coord</a>
-
-    <div class="row-container buttonsRow">
-        <button class="noBorderBtn" (click)="onLogoutBtnClick()">
-            <mat-icon style="color: white;">logout</mat-icon>
-        </button>
-    </div>
 </nav>
 
 <div class="view-outer">
+
+    <!-- Messages for nonexistant coords -->
+    <h1 id="viewcoord-errormsg" *ngIf="errorActive">{{currErrorMsg}}</h1>
     <div [ngStyle]="
     {
         'width': editorWidth + 'px',
@@ -43,3 +40,5 @@
 
     </div>
 </div>
+
+<ngx-spinner type="ball-elastic-dots" name="extcoord-load" color="#543449"></ngx-spinner>

@@ -24,27 +24,11 @@ export class SignInComponent{
     create_session : boolean = false; 
 
     constructor(private authService : AuthService, private spinner : NgxSpinnerService,
-    private router : Router ){
-
-        // Handling router events
-        // this.router.events.subscribe( ( e : RouterEvent )=> {
-            
-        //     console.log('gottie'); 
-        //     console.log(e); 
-        //     if(e instanceof GuardsCheckStart){
-        //         this.spinner.show("page-load"); 
-        //     }
-        //     else{
-        //         this.spinner.hide("page-load"); 
-        //     }
-        // })
-    }
+    private router : Router ){}
 
     ngOnInit(){
         // Check if a valid session already exists; if it does, skip login for this user
         this.authService.check_session().then( (res:any) => {
-            console.log('session state: ' + res); 
-
             if(res){
                 this.router.navigate(['/my-coords']); 
             }
@@ -67,7 +51,6 @@ export class SignInComponent{
             else if(res['userState'] == 'valid'){
                 
                 // Create session
-                console.log('creating session'); 
                 this.authService.gen_session().then( (res:any) => {
 
                     this.new_user = false; 
@@ -105,8 +88,6 @@ export class SignInComponent{
                 this.new_user = false; 
                 this.entry_error = false; 
                 this.pw_error = false; 
-
-                console.log('creating session'); 
 
                 this.authService.gen_session().then( (res:any) => {
                     this.router.navigate(['/my-coords']).then( () => {

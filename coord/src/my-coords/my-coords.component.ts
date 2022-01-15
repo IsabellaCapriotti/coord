@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { SaveCoordService } from "src/service/save_coords.service";
 import { Coord } from "src/utils/types";
 import { AuthService } from "src/service/auth.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     'selector': 'my-coords',
@@ -15,15 +16,17 @@ export class MyCoordsComponent implements OnInit{
     savedCoords : Coord[] = []; 
 
     constructor( private saveCoordService : SaveCoordService, private router : Router,
-        private authService : AuthService){
+        private authService : AuthService, private spinner : NgxSpinnerService){
 
     }
 
     ngOnInit(){
         
         // Get initial saved coords 
+        this.spinner.show("mycoords-load"); 
         this.saveCoordService.get_saved_coords().then( (res:any) => {
             this.savedCoords = res; 
+            this.spinner.hide("mycoords-load"); 
         }); 
 
     }
@@ -47,6 +50,9 @@ export class MyCoordsComponent implements OnInit{
 
     
     onLogoutBtnClick(){
-        this.authService.logout(); 
+        this.spinner.show("mycoords-load"); 
+        this.authService.logout().then( () => {
+            this.spinner.hide("mycoords-load"); 
+        }); 
     }
 }

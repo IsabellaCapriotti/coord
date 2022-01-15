@@ -2,6 +2,7 @@ import { Component, HostBinding } from "@angular/core";
 import { Product, Coord } from "src/utils/types";
 import { SaveCoordService } from "src/service/save_coords.service";
 import { ActivatedRoute } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     selector: 'current-coord',
@@ -22,7 +23,8 @@ export class CurrentCoordComponent{
     isExistingCoord : boolean = false; 
     coordID : string = ""; 
 
-    constructor(private saveCoordService : SaveCoordService, private route : ActivatedRoute ){
+    constructor(private saveCoordService : SaveCoordService, private route : ActivatedRoute,
+        private spinner : NgxSpinnerService ){
 
         // Check if the route contains query parameter for an existing Coord or not
         this.route.queryParams.subscribe( (qp : any) => {
@@ -45,7 +47,6 @@ export class CurrentCoordComponent{
         // Subscribe to changes in active products list
         this.saveCoordService.productsInCoordSubj.subscribe( (newProds: Product[]) => {
             this.activeProducts = newProds; 
-            //console.log(this.activeProducts); 
         }); 
 
     }
@@ -60,8 +61,9 @@ export class CurrentCoordComponent{
     // Fetches and loads information on an existing Coord into the active editor.
     loadCoord(){
 
+        this.spinner.show("coord-load"); 
         this.saveCoordService.get_coord(this.coordID).then( (res:any) => {
-            console.log(res); 
+
             // Update state to match fetched Coord
             this.editorWidth = res['width']
             this.editorHeight = res['height']
@@ -73,6 +75,8 @@ export class CurrentCoordComponent{
             this.saveCoordService.assignDimensions(this.editorWidth, this.editorHeight);
             
             this.saveCoordService.setLinkSharingState(res['isPublic']); 
+
+            this.spinner.hide("coord-load"); 
         }); 
     }
 }

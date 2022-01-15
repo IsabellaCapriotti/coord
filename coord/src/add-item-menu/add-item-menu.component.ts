@@ -71,8 +71,6 @@ export class AddItemMenuComponent{
             this.spinner.hide("add-product-spinner"); 
         }, 
         (err:any) => {
-            console.log('got error'); 
-            console.log(err)
             alert('Oops! Looks like that wasn\'t a valid URL. Please try again.')
         }); 
 
